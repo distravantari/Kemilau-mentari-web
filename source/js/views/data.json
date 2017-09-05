@@ -100,62 +100,32 @@
         "nama_pegawai": "Udin",
         "jabatan": "admin",
         "alamat": "pelindung hewan",
-        "no_telpon": 5202754
+        "handphone": 5202754,
+        "komisi": "0.1%"
       },
       {
         "kode": 2,
         "nama_pegawai": "Udin",
         "jabatan": "admin",
         "alamat": "pelindung hewan",
-        "no_telpon": 5202754
+        "handphone": 5202754,
+        "komisi": "0.1%"
       },
       {
         "kode": 3,
         "nama_pegawai": "Udin",
         "jabatan": "admin",
         "alamat": "pelindung hewan",
-        "no_telpon": 5202754
+        "handphone": 5202754,
+        "komisi": "0.1%"
       },
       {
         "kode": 4,
         "nama_pegawai": "Udin",
         "jabatan": "admin",
         "alamat": "pelindung hewan",
-        "no_telpon": 5202754
-      }
-    ]
-  },
-  "salesman": {
-    "code": 200,
-    "message": "success",
-    "data": [
-      {
-        "kode": 1,
-        "nama_salesman": "Udin",
-        "alamat": "pelindung hewan",
-        "no_telpon": 5202754,
-        "%komisi": "0.1%"
-      },
-      {
-        "kode": 2,
-        "nama_salesman": "Udin",
-        "alamat": "pelindung hewan",
-        "no_telpon": 5202754,
-        "%komisi": "0.1%"
-      },
-      {
-        "kode": 3,
-        "nama_salesman": "Udin",
-        "alamat": "pelindung hewan",
-        "no_telpon": 5202754,
-        "%komisi": "0.1%"
-      },
-      {
-        "kode": 4,
-        "nama_salesman": "Udin",
-        "alamat": "pelindung hewan",
-        "no_telpon": 5202754,
-        "%komisi": "0.1%"
+        "handphone": 5202754,
+        "komisi": "0.1%"
       }
     ]
   },
