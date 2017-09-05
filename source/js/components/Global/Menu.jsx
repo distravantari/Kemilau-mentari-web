@@ -43,6 +43,7 @@ export default class Menu extends Component {
           <Navbar.Collapse>
             <Nav>
               <NavItem data-to={ routeCodes.BARANG } onClick={ this.handleNavigation }>Barang</NavItem>
+              <NavItem data-to={ routeCodes.KONSUMEN } onClick={ this.handleNavigation }>Konsumen</NavItem>
             </Nav>
             <Nav pullRight>
               <NavItem onClick={ this.handleLogout }>Logout</NavItem>
