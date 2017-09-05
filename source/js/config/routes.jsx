@@ -5,6 +5,7 @@ import Login from 'views/Login';
 import Barang from 'views/Barang';
 import Konsumen from 'views/Konsumen';
 import Pegawai from 'views/Pegawai';
+import Supplier from 'views/Supplier';
 import NotFound from 'views/NotFound';
 
 const publicPath = '/';
@@ -14,6 +15,7 @@ export const routeCodes = {
   BARANG: `${ publicPath }barang`,
   KONSUMEN: `${ publicPath }konsumen`,
   PEGAWAI: `${ publicPath }pegawai`,
+  SUPPLIER: `${ publicPath }supplier`,
 };
 
 export default () => (
@@ -22,6 +24,7 @@ export default () => (
     <Route exact path={ routeCodes.BARANG } component={ Barang } />
     <Route exact path={ routeCodes.KONSUMEN } component={ Konsumen } />
     <Route exact path={ routeCodes.PEGAWAI } component={ Pegawai } />
+    <Route exact path={ routeCodes.SUPPLIER } component={ Supplier } />
     <Route path='*' component={ NotFound } />
   </Switch>
 );
