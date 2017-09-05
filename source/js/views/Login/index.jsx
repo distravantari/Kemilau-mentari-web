@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from 'actions/user';
+// import { login } from 'actions/user';
 import { Grid, Row, Col, Form, FormGroup, FormControl, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
 
 import { routeCodes } from 'config/routes';
 
-@connect(state => ({
-  error: state.user.get('error'),
-  loading: state.user.get('loading'),
-  isAuthenticated: state.user.get('isAuthenticated'),
-}))
+// @connect(state => ({
+//   error: state.user.get('error'),
+//   loading: state.user.get('loading'),
+//   isAuthenticated: state.user.get('isAuthenticated'),
+// }))
 
 export default class Login extends Component {
   static propTypes = {
@@ -51,9 +51,10 @@ export default class Login extends Component {
 
   handleLogin(e) {
     e.preventDefault();
-    const { dispatch } = this.props;
-    const userData = { ...this.state };
-    dispatch(login(userData));
+    const { dispatch, history } = this.props;
+    // const userData = { ...this.state };
+    // dispatch(login(userData));
+    history.push(routeCodes.BARANG);
   }
 
 
@@ -65,7 +66,7 @@ export default class Login extends Component {
           <Grid>
             <Row className='title-row'>
               <Col xs={ 12 } className='text-center'>
-                <h3 className='login-title name'>Deva States</h3>
+                <h3 className='login-title name'>Universal POS</h3>
                 <h4 className='login-title'>LOGIN</h4>
               </Col>
             </Row>

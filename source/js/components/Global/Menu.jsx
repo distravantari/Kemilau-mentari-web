@@ -25,6 +25,9 @@ export default class Menu extends Component {
 
   handleLogout(e) {
     // TODO: call logout action
+    e.preventDefault();
+    const { history } = this.props;
+    history.push(routeCodes.LOGIN);
   }
 
   render() {
@@ -33,13 +36,13 @@ export default class Menu extends Component {
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <NavLink className='navbar-brand' exact to={ routeCodes.LOGIN }>Universal POS</NavLink>
+              <NavLink className='navbar-brand' exact to={ routeCodes.BARANG }>Universal POS</NavLink>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem data-to={ routeCodes.LOGIN } onClick={ this.handleNavigation }>Product</NavItem>
+              <NavItem data-to={ routeCodes.BARANG } onClick={ this.handleNavigation }>Barang</NavItem>
             </Nav>
             <Nav pullRight>
               <NavItem onClick={ this.handleLogout }>Logout</NavItem>
