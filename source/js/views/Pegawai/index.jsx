@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Image, Modal, HelpBlock } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
 
 import Menu from 'components/Global/Menu';
-import { routeCodes } from 'config/routes';
-
-import data from '../data.json';
 
 // react table
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+
+import data from '../data.json';
 
 export default class Pegawai extends Component {
   static propTypes = {
@@ -47,51 +46,87 @@ export default class Pegawai extends Component {
   }
 
   handleKotaChange(e) {
-    this.setState({ newDataPegawai: { ...this.state.newDataPegawai, kota: e.target.value } });
+    this.setState({ newDataPegawai: {
+      ...this.state.newDataPegawai,
+      kota: e.target.value,
+    } });
   }
 
   handleIsolatedKotaChange(e) {
-    this.setState({ isolatedDataPegawai: { ...this.state.isolatedDataPegawai, kota: e.target.value } });
+    this.setState({ isolatedDataPegawai: {
+      ...this.state.isolatedDataPegawai,
+      kota: e.target.value,
+    } });
   }
 
   handleNamaChange(e) {
-    this.setState({ newDataPegawai: { ...this.state.newDataPegawai, nama_pegawai: e.target.value } });
+    this.setState({ newDataPegawai: {
+      ...this.state.newDataPegawai,
+      nama_pegawai: e.target.value,
+    } });
   }
 
   handleIsolatedNamaChange(e) {
-    this.setState({ isolatedDataPegawai: { ...this.state.isolatedDataPegawai, nama_pegawai: e.target.value } });
+    this.setState({ isolatedDataPegawai: {
+      ...this.state.isolatedDataPegawai,
+      nama_pegawai: e.target.value,
+    } });
   }
 
   handleAlamatChange(e) {
-    this.setState({ newDataPegawai: { ...this.state.newDataPegawai, alamat: e.target.value } });
+    this.setState({ newDataPegawai: {
+      ...this.state.newDataPegawai,
+      alamat: e.target.value,
+    } });
   }
 
   handleIsolatedAlamatChange(e) {
-    this.setState({ isolatedDataPegawai: { ...this.state.isolatedDataPegawai, alamat: e.target.value } });
+    this.setState({ isolatedDataPegawai: {
+      ...this.state.isolatedDataPegawai,
+      alamat: e.target.value,
+    } });
   }
 
   handleHandphoneChange(e) {
-    this.setState({ newDataPegawai: { ...this.state.newDataPegawai, handphone: e.target.value } });
+    this.setState({ newDataPegawai: {
+      ...this.state.newDataPegawai,
+      handphone: e.target.value,
+    } });
   }
 
   handleIsolatedHandphoneChange(e) {
-    this.setState({ isolatedDataPegawai: { ...this.state.isolatedDataPegawai, handphone: e.target.value } });
+    this.setState({ isolatedDataPegawai: {
+      ...this.state.isolatedDataPegawai,
+      handphone: e.target.value,
+    } });
   }
 
   handleJabatanChange(e) {
-    this.setState({ newDataPegawai: { ...this.state.newDataPegawai, jabatan: e.target.value } });
+    this.setState({ newDataPegawai: {
+      ...this.state.newDataPegawai,
+      jabatan: e.target.value,
+    } });
   }
 
   handleIsolatedJabatanChange(e) {
-    this.setState({ isolatedDataPegawai: { ...this.state.isolatedDataPegawai, jabatan: e.target.value } });
+    this.setState({ isolatedDataPegawai: {
+      ...this.state.isolatedDataPegawai,
+      jabatan: e.target.value,
+    } });
   }
 
   handleKomisiChange(e) {
-    this.setState({ newDataPegawai: { ...this.state.newDataPegawai, komisi: e.target.value } });
+    this.setState({ newDataPegawai: {
+      ...this.state.newDataPegawai,
+      komisi: e.target.value,
+    } });
   }
 
   handleIsolatedKomisiChange(e) {
-    this.setState({ isolatedDataPegawai: { ...this.state.isolatedDataPegawai, komisi: e.target.value } });
+    this.setState({ isolatedDataPegawai: {
+      ...this.state.isolatedDataPegawai,
+      komisi: e.target.value,
+    } });
   }
 
   textFilter(filter, row) {
@@ -196,8 +231,8 @@ export default class Pegawai extends Component {
                   <ControlLabel>Prosentase Komisi</ControlLabel>
                   <FormControl
                     type='text'
-                    value={this.state.isolatedDataPegawai.komisi}
-                    onChange={this.handleIsolatedKomisiChange}
+                    value={ this.state.isolatedDataPegawai.komisi }
+                    onChange={ this.handleIsolatedKomisiChange }
                     placeholder='Prosentase Komisi'
                   />
                   <FormControl.Feedback />
@@ -271,8 +306,8 @@ export default class Pegawai extends Component {
                           <ControlLabel>Prosentase Komisi</ControlLabel>
                           <FormControl
                             type='text'
-                            value={this.state.newDataPegawai.komisi}
-                            onChange={this.handleKomisiChange}
+                            value={ this.state.newDataPegawai.komisi }
+                            onChange={ this.handleKomisiChange }
                             placeholder='Prosentase Komisi'
                           />
                           <FormControl.Feedback />

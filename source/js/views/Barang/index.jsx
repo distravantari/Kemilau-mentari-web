@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Image, Modal, HelpBlock } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
 
 import Menu from 'components/Global/Menu';
-import { routeCodes } from 'config/routes';
-
-import data from '../data.json';
 
 // react table
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+
+import data from '../data.json';
 
 export default class Barang extends Component {
   static propTypes = {
@@ -55,67 +54,103 @@ export default class Barang extends Component {
   }
 
   handleKatagoriChange(e) {
-    this.setState({ newDataBarang: { ...this.state.newDataBarang, katagori: e.target.value } });
+    this.setState({ newDataBarang: {
+      ...this.state.newDataBarang,
+      katagori: e.target.value,
+    } });
   }
 
   handleIsolatedKatagoriChange(e) {
-    this.setState({ isolatedDataBarang: { ...this.state.isolatedDataBarang, katagori: e.target.value } });
+    this.setState({ isolatedDataBarang: {
+      ...this.state.isolatedDataBarang,
+      katagori: e.target.value,
+    } });
   }
 
   handleMerekChange(e) {
-    this.setState({ newDataBarang: { ...this.state.newDataBarang, merek: e.target.value } });
+    this.setState({ newDataBarang: {
+      ...this.state.newDataBarang,
+      merek: e.target.value,
+    } });
   }
 
   handleIsolatedMerekChange(e) {
-    this.setState({ isolatedDataBarang: { ...this.state.isolatedDataBarang, merek: e.target.value } });
+    this.setState({ isolatedDataBarang: {
+      ...this.state.isolatedDataBarang,
+      merek: e.target.value,
+    } });
   }
 
   handleTipeChange(e) {
-    this.setState({ newDataBarang: { ...this.state.newDataBarang, tipe: e.target.value } });
+    this.setState({ newDataBarang: {
+      ...this.state.newDataBarang,
+      tipe: e.target.value } });
   }
 
   handleIsolatedTipeChange(e) {
-    this.setState({ isolatedDataBarang: { ...this.state.isolatedDataBarang, tipe: e.target.value } });
+    this.setState({ isolatedDataBarang: {
+      ...this.state.isolatedDataBarang,
+      tipe: e.target.value } });
   }
 
   handleNamaChange(e) {
-    this.setState({ newDataBarang: { ...this.state.newDataBarang, nama_barang: e.target.value } });
+    this.setState({ newDataBarang: {
+      ...this.state.newDataBarang,
+      nama_barang: e.target.value } });
   }
 
   handleIsolatedNamaChange(e) {
-    this.setState({ isolatedDataBarang: { ...this.state.isolatedDataBarang, nama_barang: e.target.value } });
+    this.setState({ isolatedDataBarang: {
+      ...this.state.isolatedDataBarang,
+      nama_barang: e.target.value } });
   }
 
   handleSatuanChange(e) {
-    this.setState({ newDataBarang: { ...this.state.newDataBarang, satuan: e.target.value } });
+    this.setState({ newDataBarang: {
+      ...this.state.newDataBarang,
+      satuan: e.target.value } });
   }
 
   handleIsolatedSatuanChange(e) {
-    this.setState({ isolatedDataBarang: { ...this.state.isolatedDataBarang, satuan: e.target.value } });
+    this.setState({ isolatedDataBarang: {
+      ...this.state.isolatedDataBarang,
+      satuan: e.target.value } });
   }
 
   handleHargaBeliChange(e) {
-    this.setState({ newDataBarang: { ...this.state.newDataBarang, harga_beli: e.target.value } });
+    this.setState({ newDataBarang: {
+      ...this.state.newDataBarang,
+      harga_beli: e.target.value } });
   }
 
   handleIsolatedHargaBeliChange(e) {
-    this.setState({ isolatedDataBarang: { ...this.state.isolatedDataBarang, harga_beli: e.target.value } });
+    this.setState({ isolatedDataBarang: {
+      ...this.state.isolatedDataBarang,
+      harga_beli: e.target.value } });
   }
 
   handleHargaJualChange(e) {
-    this.setState({ newDataBarang: { ...this.state.newDataBarang, harga_jual: e.target.value } });
+    this.setState({ newDataBarang: {
+      ...this.state.newDataBarang,
+      harga_jual: e.target.value } });
   }
 
   handleIsolatedHargaJualChange(e) {
-    this.setState({ isolatedDataBarang: { ...this.state.isolatedDataBarang, harga_jual: e.target.value } });
+    this.setState({ isolatedDataBarang: {
+      ...this.state.isolatedDataBarang,
+      harga_jual: e.target.value } });
   }
 
   handleSupplierChange(e) {
-    this.setState({ newDataBarang: { ...this.state.newDataBarang, supplier: e.target.value } });
+    this.setState({ newDataBarang: {
+      ...this.state.newDataBarang,
+      supplier: e.target.value } });
   }
 
   handleIsolatedSupplierChange(e) {
-    this.setState({ isolatedDataBarang: { ...this.state.isolatedDataBarang, supplier: e.target.value } });
+    this.setState({ isolatedDataBarang: {
+      ...this.state.isolatedDataBarang,
+      supplier: e.target.value } });
   }
 
   textFilter(filter, row) {

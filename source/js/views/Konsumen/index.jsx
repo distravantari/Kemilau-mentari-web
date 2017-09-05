@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Image, Modal, HelpBlock } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
 
 import Menu from 'components/Global/Menu';
-import { routeCodes } from 'config/routes';
-
-import data from '../data.json';
 
 // react table
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+
+import data from '../data.json';
 
 export default class Konsumen extends Component {
   static propTypes = {
@@ -52,59 +51,100 @@ export default class Konsumen extends Component {
   }
 
   handleKotaChange(e) {
-    this.setState({ newDataKonsumen: { ...this.state.newDataKonsumen, kota: e.target.value } });
+    this.setState({ newDataKonsumen: {
+      ...this.state.newDataKonsumen,
+      kota: e.target.value } });
   }
 
   handleIsolatedKotaChange(e) {
-    this.setState({ isolatedDataKonsumen: { ...this.state.isolatedDataKonsumen, kota: e.target.value } });
+    this.setState({ isolatedDataKonsumen: {
+      ...this.state.isolatedDataKonsumen,
+      kota: e.target.value,
+    } });
   }
 
   handleNamaChange(e) {
-    this.setState({ newDataKonsumen: { ...this.state.newDataKonsumen, nama_konsumen: e.target.value } });
+    this.setState({ newDataKonsumen: {
+      ...this.state.newDataKonsumen,
+      nama_konsumen: e.target.value,
+    } });
   }
 
   handleIsolatedNamaChange(e) {
-    this.setState({ isolatedDataKonsumen: { ...this.state.isolatedDataKonsumen, nama_konsumen: e.target.value } });
+    this.setState({ isolatedDataKonsumen: {
+      ...this.state.isolatedDataKonsumen,
+      nama_konsumen: e.target.value,
+    } });
   }
 
   handleAlamatChange(e) {
-    this.setState({ newDataKonsumen: { ...this.state.newDataKonsumen, alamat: e.target.value } });
+    this.setState({ newDataKonsumen: {
+      ...this.state.newDataKonsumen,
+      alamat: e.target.value,
+    } });
   }
 
   handleIsolatedAlamatChange(e) {
-    this.setState({ isolatedDataKonsumen: { ...this.state.isolatedDataKonsumen, alamat: e.target.value } });
+    this.setState({ isolatedDataKonsumen: {
+      ...this.state.isolatedDataKonsumen,
+      alamat: e.target.value,
+    } });
   }
 
   handleNoTelpChange(e) {
-    this.setState({ newDataKonsumen: { ...this.state.newDataKonsumen, no_telpon: e.target.value } });
+    this.setState({ newDataKonsumen: {
+      ...this.state.newDataKonsumen,
+      no_telpon: e.target.value,
+    } });
   }
 
   handleIsolatedNoTelpChange(e) {
-    this.setState({ isolatedDataKonsumen: { ...this.state.isolatedDataKonsumen, no_telpon: e.target.value } });
+    this.setState({ isolatedDataKonsumen: {
+      ...this.state.isolatedDataKonsumen,
+      no_telpon: e.target.value,
+    } });
   }
 
   handleHandphoneChange(e) {
-    this.setState({ newDataKonsumen: { ...this.state.newDataKonsumen, handphone: e.target.value } });
+    this.setState({ newDataKonsumen: {
+      ...this.state.newDataKonsumen,
+      handphone: e.target.value,
+    } });
   }
 
   handleIsolatedHandphoneChange(e) {
-    this.setState({ isolatedDataKonsumen: { ...this.state.isolatedDataKonsumen, handphone: e.target.value } });
+    this.setState({ isolatedDataKonsumen: {
+      ...this.state.isolatedDataKonsumen,
+      handphone: e.target.value,
+    } });
   }
 
   handleLimitPiutangChange(e) {
-    this.setState({ newDataKonsumen: { ...this.state.newDataKonsumen, limit_piutang: e.target.value } });
+    this.setState({ newDataKonsumen: {
+      ...this.state.newDataKonsumen,
+      limit_piutang: e.target.value,
+    } });
   }
 
   handleIsolatedLimitPiutangChange(e) {
-    this.setState({ isolatedDataKonsumen: { ...this.state.isolatedDataKonsumen, limit_piutang: e.target.value } });
+    this.setState({ isolatedDataKonsumen: {
+      ...this.state.isolatedDataKonsumen,
+      limit_piutang: e.target.value,
+    } });
   }
 
   handleSalesmanChange(e) {
-    this.setState({ newDataKonsumen: { ...this.state.newDataKonsumen, salesman: e.target.value } });
+    this.setState({ newDataKonsumen: {
+      ...this.state.newDataKonsumen,
+      salesman: e.target.value,
+    } });
   }
 
   handleIsolatedSalesmanChange(e) {
-    this.setState({ isolatedDataKonsumen: { ...this.state.isolatedDataKonsumen, salesman: e.target.value } });
+    this.setState({ isolatedDataKonsumen: {
+      ...this.state.isolatedDataKonsumen,
+      salesman: e.target.value,
+    } });
   }
 
   textFilter(filter, row) {

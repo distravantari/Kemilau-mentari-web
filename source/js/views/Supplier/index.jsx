@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Image, Modal, HelpBlock } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
 
 import Menu from 'components/Global/Menu';
-import { routeCodes } from 'config/routes';
-
-import data from '../data.json';
 
 // react table
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+
+import data from '../data.json';
 
 export default class Supplier extends Component {
   static propTypes = {
@@ -41,35 +40,59 @@ export default class Supplier extends Component {
   }
 
   handleKotaChange(e) {
-    this.setState({ newDataSupplier: { ...this.state.newDataSupplier, kota: e.target.value } });
+    this.setState({ newDataSupplier: {
+      ...this.state.newDataSupplier,
+      kota: e.target.value,
+    } });
   }
 
   handleIsolatedKotaChange(e) {
-    this.setState({ isolatedDataSupplier: { ...this.state.isolatedDataSupplier, kota: e.target.value } });
+    this.setState({ isolatedDataSupplier: {
+      ...this.state.isolatedDataSupplier,
+      kota: e.target.value,
+    } });
   }
 
   handleNamaChange(e) {
-    this.setState({ newDataSupplier: { ...this.state.newDataSupplier, nama_supplier: e.target.value } });
+    this.setState({ newDataSupplier: {
+      ...this.state.newDataSupplier,
+      nama_supplier: e.target.value,
+    } });
   }
 
   handleIsolatedNamaChange(e) {
-    this.setState({ isolatedDataSupplier: { ...this.state.isolatedDataSupplier, nama_supplier: e.target.value } });
+    this.setState({ isolatedDataSupplier: {
+      ...this.state.isolatedDataSupplier,
+      nama_supplier: e.target.value,
+    } });
   }
 
   handleAlamatChange(e) {
-    this.setState({ newDataSupplier: { ...this.state.newDataSupplier, alamat: e.target.value } });
+    this.setState({ newDataSupplier: {
+      ...this.state.newDataSupplier,
+      alamat: e.target.value,
+    } });
   }
 
   handleIsolatedAlamatChange(e) {
-    this.setState({ isolatedDataSupplier: { ...this.state.isolatedDataSupplier, alamat: e.target.value } });
+    this.setState({ isolatedDataSupplier: {
+      ...this.state.isolatedDataSupplier,
+      alamat: e.target.value,
+    } });
   }
 
   handleNoTelpChange(e) {
-    this.setState({ newDataSupplier: { ...this.state.newDataSupplier, no_telpon: e.target.value } });
+    this.setState({ newDataSupplier: {
+      ...this.state.newDataSupplier,
+      no_telpon: e.target.value,
+    } });
   }
 
   handleIsolatedNoTelpChange(e) {
-    this.setState({ isolatedDataSupplier: { ...this.state.isolatedDataSupplier, no_telpon: e.target.value } });
+    this.setState({ isolatedDataSupplier: {
+      ...this.state.isolatedDataSupplier,
+      no_telpon: e.target.value,
+    } });
   }
 
   textFilter(filter, row) {
@@ -118,9 +141,9 @@ export default class Supplier extends Component {
     ];
     return (
       <div>
-        <Menu history={history} />
+        <Menu history={ history } />
         <section className='product-section'>
-          <Modal show={this.state.showModal} onHide={this.handleCloseModal} dialogClassName='edit-modal'>
+          <Modal show={ this.state.showModal } onHide={ this.handleCloseModal } dialogClassName='edit-modal'>
             <Modal.Header closeButton>
               <Modal.Title>Detail Supplier</Modal.Title>
             </Modal.Header>
@@ -130,8 +153,8 @@ export default class Supplier extends Component {
                   <ControlLabel>Nama Supplier</ControlLabel>
                   <FormControl
                     type='text'
-                    value={this.state.isolatedDataSupplier.nama_supplier}
-                    onChange={this.handleIsolatedNamaChange}
+                    value={ this.state.isolatedDataSupplier.nama_supplier }
+                    onChange={ this.handleIsolatedNamaChange }
                     placeholder='Nama Supplier'
                   />
                   <FormControl.Feedback />
@@ -140,8 +163,8 @@ export default class Supplier extends Component {
                   <ControlLabel>Alamat Supplier</ControlLabel>
                   <FormControl
                     type='text'
-                    value={this.state.isolatedDataSupplier.alamat}
-                    onChange={this.handleIsolatedAlamatChange}
+                    value={ this.state.isolatedDataSupplier.alamat }
+                    onChange={ this.handleIsolatedAlamatChange }
                     placeholder='Alamat Supplier'
                   />
                   <FormControl.Feedback />
@@ -150,33 +173,33 @@ export default class Supplier extends Component {
                   <ControlLabel>No Telepon Supplier</ControlLabel>
                   <FormControl
                     type='text'
-                    value={this.state.isolatedDataSupplier.no_telpon}
-                    onChange={this.handleIsolatedNoTelpChange}
+                    value={ this.state.isolatedDataSupplier.no_telpon }
+                    onChange={ this.handleIsolatedNoTelpChange }
                     placeholder='No Telepon Supplier'
                   />
                   <FormControl.Feedback />
                 </FormGroup>
                 <FormGroup>
                   <HelpBlock>{null}</HelpBlock>
-                  <Button type='submit' block bsStyle='primary' onClick={this.handleEditProduct}>Edit Supplier</Button>
-                  <Button type='submit' block bsStyle='danger' onClick={this.handleDeleteProduct} >Delete Supplier</Button>
+                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Edit Supplier</Button>
+                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteProduct } >Delete Supplier</Button>
                 </FormGroup>
               </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleCloseModal}>Close</Button>
+              <Button onClick={ this.handleCloseModal }>Close</Button>
             </Modal.Footer>
           </Modal>
           <Grid>
             <Row className='title-row'>
-              <Col xs={12}>
+              <Col xs={ 12 }>
                 <h3>Supplier</h3>
               </Col>
             </Row>
             <Row className='content-row'>
-              <Col xs={12}>
+              <Col xs={ 12 }>
                 <Row className='add-product-row'>
-                  <Col xs={12}>
+                  <Col xs={ 12 }>
                     <Panel>
                       <h4>Tambah Supplier</h4>
                       <Form>
@@ -184,8 +207,8 @@ export default class Supplier extends Component {
                           <ControlLabel>Nama Supplier</ControlLabel>
                           <FormControl
                             type='text'
-                            value={this.state.newDataSupplier.nama_supplier}
-                            onChange={this.handleNamaChange}
+                            value={ this.state.newDataSupplier.nama_supplier }
+                            onChange={ this.handleNamaChange }
                             placeholder='Nama Supplier'
                           />
                           <FormControl.Feedback />
@@ -194,8 +217,8 @@ export default class Supplier extends Component {
                           <ControlLabel>Alamat Supplier</ControlLabel>
                           <FormControl
                             type='text'
-                            value={this.state.newDataSupplier.alamat}
-                            onChange={this.handleAlamatChange}
+                            value={ this.state.newDataSupplier.alamat }
+                            onChange={ this.handleAlamatChange }
                             placeholder='Alamat Supplier'
                           />
                           <FormControl.Feedback />
@@ -204,15 +227,15 @@ export default class Supplier extends Component {
                           <ControlLabel>No Telepon Supplier</ControlLabel>
                           <FormControl
                             type='text'
-                            value={this.state.newDataSupplier.no_telpon}
-                            onChange={this.handleNoTelpChange}
+                            value={ this.state.newDataSupplier.no_telpon }
+                            onChange={ this.handleNoTelpChange }
                             placeholder='No Telepon Supplier'
                           />
                           <FormControl.Feedback />
                         </FormGroup>
                         <FormGroup>
                           <HelpBlock>{null}</HelpBlock>
-                          <Button type='submit' block bsStyle='primary' onClick={this.handleEditProduct}>Tambah Supplier</Button>
+                          <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Tambah Supplier</Button>
                         </FormGroup>
                       </Form>
                     </Panel>
@@ -220,13 +243,13 @@ export default class Supplier extends Component {
                       <h4>Daftar Supplier</h4>
                       <h6><em>Klik pada baris tabel untuk merubah / menghapus entri</em></h6>
                       <ReactTable
-                        data={dataSupplier}
-                        columns={columns}
+                        data={ dataSupplier }
+                        columns={ columns }
                         noDataText='No Data Available'
                         filterable
-                        defaultPageSize={10}
+                        defaultPageSize={ 10 }
                         className='-striped -highlight'
-                        getTdProps={(state, rowInfo) => {
+                        getTdProps={ (state, rowInfo) => {
                           return {
                             onClick: (e, handleOriginal) => {
                               this.handleShowModal(e, rowInfo);
@@ -236,7 +259,7 @@ export default class Supplier extends Component {
                               }
                             },
                           };
-                        }}
+                        } }
                       />
                     </Panel>
                   </Col>

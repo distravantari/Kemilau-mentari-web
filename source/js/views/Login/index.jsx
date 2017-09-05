@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import { login } from 'actions/user';
 import { Grid, Row, Col, Form, FormGroup, FormControl, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
@@ -14,7 +13,6 @@ import { routeCodes } from 'config/routes';
 
 export default class Login extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
     error: PropTypes.string,
     loading: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
@@ -51,7 +49,7 @@ export default class Login extends Component {
 
   handleLogin(e) {
     e.preventDefault();
-    const { dispatch, history } = this.props;
+    const { history } = this.props;
     // const userData = { ...this.state };
     // dispatch(login(userData));
     history.push(routeCodes.BARANG);

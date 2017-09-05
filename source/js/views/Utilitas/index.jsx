@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Image, Modal, HelpBlock, Nav, NavItem } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock, Nav, NavItem } from 'react-bootstrap';
 
 import Menu from 'components/Global/Menu';
-import { routeCodes } from 'config/routes';
-
-import data from '../data.json';
 
 // react table
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+
+import data from '../data.json';
 
 export default class Utilitas extends Component {
   static propTypes = {
@@ -53,43 +52,75 @@ export default class Utilitas extends Component {
   }
 
   handleNamaChange(e) {
-    this.setState({ newDataUtilitas: { ...this.state.newDataUtilitas, nama: e.target.value } });
+    this.setState({ newDataUtilitas: {
+      ...this.state.newDataUtilitas,
+      nama: e.target.value,
+    } });
   }
 
   handleIsolatedNamaChange(e) {
-    this.setState({ isolatedDataUtilitas: { ...this.state.isolatedDataUtilitas, nama: e.target.value } });
+    this.setState({ isolatedDataUtilitas: {
+      ...this.state.isolatedDataUtilitas,
+      nama: e.target.value,
+    } });
   }
 
   handleNamaTipeChange(e) {
-    this.setState({ newDataTipeUtilitas: { ...this.state.newDataTipeUtilitas, nama_tipe: e.target.value } });
+    this.setState({ newDataTipeUtilitas: {
+      ...this.state.newDataTipeUtilitas,
+      nama_tipe: e.target.value,
+    } });
   }
 
   handleIsolatedNamaTipeChange(e) {
-    this.setState({ isolatedDataTipeUtilitas: { ...this.state.isolatedDataTipeUtilitas, nama_tipe: e.target.value } });
+    this.setState({ isolatedDataTipeUtilitas: {
+      ...this.state.isolatedDataTipeUtilitas,
+      nama_tipe: e.target.value,
+    } });
   }
 
   handleTipeChange(e) {
     if (e.target.value !== '6') {
-      this.setState({ newDataUtilitas: { ...this.state.newDataUtilitas, tipe: e.target.value, biaya: 0 } });
+      this.setState({ newDataUtilitas: {
+        ...this.state.newDataUtilitas,
+        tipe: e.target.value,
+        biaya: 0,
+      } });
     } else {
-      this.setState({ newDataUtilitas: { ...this.state.newDataUtilitas, tipe: e.target.value } });
+      this.setState({ newDataUtilitas: {
+        ...this.state.newDataUtilitas,
+        tipe: e.target.value,
+      } });
     }
   }
 
   handleIsolatedTipeChange(e) {
     if (e.target.value !== '6') {
-      this.setState({ isolatedDataUtilitas: { ...this.state.isolatedDataUtilitas, tipe: e.target.value, biaya: 0 } });
+      this.setState({ isolatedDataUtilitas: {
+        ...this.state.isolatedDataUtilitas,
+        tipe: e.target.value,
+        biaya: 0,
+      } });
     } else {
-      this.setState({ isolatedDataUtilitas: { ...this.state.isolatedDataUtilitas, tipe: e.target.value } });
+      this.setState({ isolatedDataUtilitas: {
+        ...this.state.isolatedDataUtilitas,
+        tipe: e.target.value,
+      } });
     }
   }
 
   handleBiayaChange(e) {
-    this.setState({ newDataUtilitas: { ...this.state.newDataUtilitas, biaya: e.target.value } });
+    this.setState({ newDataUtilitas: {
+      ...this.state.newDataUtilitas,
+      biaya: e.target.value,
+    } });
   }
 
   handleIsolatedBiayaChange(e) {
-    this.setState({ isolatedDataUtilitas: { ...this.state.isolatedDataUtilitas, biaya: e.target.value } });
+    this.setState({ isolatedDataUtilitas: {
+      ...this.state.isolatedDataUtilitas,
+      biaya: e.target.value,
+    } });
   }
 
   textFilter(filter, row) {
@@ -102,7 +133,9 @@ export default class Utilitas extends Component {
 
   handleShowModal(e, rowInfo) {
     const { dataUtilitas } = this.state;
-    const isolatedDataUtilitas = dataUtilitas.filter((item) => item === rowInfo.original)[0];
+    const isolatedDataUtilitas = dataUtilitas.filter((item) =>
+      item === rowInfo.original)[0];
+
     this.setState({ isolatedDataUtilitas, showModal: true });
   }
 
@@ -112,9 +145,9 @@ export default class Utilitas extends Component {
 
   handleShowTipeModal(e, rowInfo) {
     const { dataTipeUtilitas } = this.state;
-    console.log(dataTipeUtilitas);
-    console.log(rowInfo.original);
-    const isolatedDataTipeUtilitas = dataTipeUtilitas.filter((item) => item === rowInfo.original)[0];
+    const isolatedDataTipeUtilitas = dataTipeUtilitas.filter((item) =>
+      item === rowInfo.original)[0];
+
     this.setState({ isolatedDataTipeUtilitas, showTipeModal: true });
   }
 
@@ -192,7 +225,7 @@ export default class Utilitas extends Component {
                     <option value='6'>Biaya Operasional</option>
                   </FormControl>
                 </FormGroup>
-                <FormGroup hidden={ this.state.isolatedDataUtilitas.tipe != '6' }>
+                <FormGroup hidden={ parseInt(this.state.isolatedDataUtilitas.tipe, 10) !== 6 }>
                   <ControlLabel>Biaya Utilitas</ControlLabel>
                   <FormControl
                     type='number'
@@ -280,7 +313,7 @@ export default class Utilitas extends Component {
                             <option value='6'>Biaya Operasional</option>
                           </FormControl>
                         </FormGroup>
-                        <FormGroup hidden={ this.state.newDataUtilitas.tipe != '6' }>
+                        <FormGroup hidden={ parseInt(this.state.newDataUtilitas.tipe, 10) !== 6 }>
                           <ControlLabel>Biaya Utilitas</ControlLabel>
                           <FormControl
                             type='number'
