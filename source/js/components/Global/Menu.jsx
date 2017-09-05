@@ -46,6 +46,7 @@ export default class Menu extends Component {
               <NavItem data-to={ routeCodes.KONSUMEN } onClick={ this.handleNavigation }>Konsumen</NavItem>
               <NavItem data-to={ routeCodes.PEGAWAI } onClick={ this.handleNavigation }>Pegawai</NavItem>
               <NavItem data-to={ routeCodes.SUPPLIER } onClick={ this.handleNavigation }>Supplier</NavItem>
+              <NavItem data-to={ routeCodes.UTILITAS } onClick={ this.handleNavigation }>Utilitas</NavItem>
             </Nav>
             <Nav pullRight>
               <NavItem onClick={ this.handleLogout }>Logout</NavItem>
