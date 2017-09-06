@@ -10,8 +10,8 @@ import Client from 'views/Client';
 import es6Promise from 'es6-promise';
 import 'isomorphic-fetch';
 
-// Load SASS
-import '../sass/app.sass';
+// Load SCSS
+import '../scss/app.scss';
 
 es6Promise.polyfill();
 
