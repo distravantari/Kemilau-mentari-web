@@ -11,7 +11,7 @@ import getServerHtml from 'config/server-html';
 import Server from 'views/Server';
 
 // Load SCSS
-import '../scss/app.scss';
+import '../sass/app.sass';
 
 const app = express();
 const hostname = 'localhost';

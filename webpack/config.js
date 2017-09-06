@@ -149,7 +149,7 @@ const getSassRule = () => {
 
   if (IS_PRODUCTION || SERVER_RENDER) {
     return {
-      test: /\.scss?$/,
+      test: /\.sass?$/,
       exclude: /node_modules/,
       loader: ExtractTextPlugin.extract({
         use: sassLoaders,
@@ -158,7 +158,7 @@ const getSassRule = () => {
   }
 
   return {
-    test: /\.scss?$/,
+    test: /\.sass?$/,
     exclude: /node_modules/,
     use: [
       {
