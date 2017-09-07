@@ -1,0 +1,198 @@
+{
+  "barang": {
+    "code": 200,
+    "message": "success",
+    "data": [
+      {
+        "kode": 1,
+        "nama_barang": "Sendal Jepit",
+        "harga_beli": 300,
+        "harga_jual": 2000,
+        "katagori": "Pakaian",
+        "merek": "Bintang Lima",
+        "tgl_update": "2017-08-09 11:22:05",
+        "nama_supplier": "Supplier Apa Aja",
+        "operator": "Udin"
+      },
+      {
+        "kode": 2,
+        "nama_barang": "Sepatu Biasa",
+        "harga_beli": 5000,
+        "harga_jual": 10000,
+        "katagori": "Pakaian",
+        "merek": "Bintang Lima",
+        "tgl_update": "2017-08-09 11:22:05",
+        "nama_supplier": "Supplier Apa Aja",
+        "operator": "Udin"
+      },
+      {
+        "kode": 3,
+        "nama_barang": "Kaos Oblong",
+        "harga_beli": 44500,
+        "harga_jual": 12000,
+        "katagori": "Pakaian",
+        "merek": "Bintang Lima",
+        "tgl_update": "2017-08-09 11:22:05",
+        "nama_supplier": "Supplier Apa Aja",
+        "operator": "Udin"
+      },
+      {
+        "kode": 4,
+        "nama_barang": "Sendal Jepit",
+        "harga_beli": 4300,
+        "harga_jual": 22000,
+        "katagori": "Pakaian",
+        "merek": "Bintang Lima",
+        "tgl_update": "2017-08-09 11:22:05",
+        "nama_supplier": "Supplier Apa Aja",
+        "operator": "Udin"
+      }
+    ]
+  },
+  "konsumen": {
+    "code": 200,
+    "message": "success",
+    "data": [
+      {
+        "area": "bandung",
+        "kode": 1,
+        "nama_konsumen": "Udin",
+        "limit_piutang": 300,
+        "no_telpon": 5202754,
+        "alamat": "pelindung hewan",
+        "salesman": "Ucok"
+      },
+      {
+        "area": "bandung",
+        "kode": 2,
+        "nama_konsumen": "Udin",
+        "limit_piutang": 300,
+        "no_telpon": 5202754,
+        "alamat": "pelindung hewan",
+        "salesman": "Ucok"
+      },
+      {
+        "area": "bandung",
+        "kode": 3,
+        "nama_konsumen": "Udin",
+        "limit_piutang": 300,
+        "no_telpon": 5202754,
+        "alamat": "pelindung hewan",
+        "salesman": "Ucok"
+      },
+      {
+        "area": "bandung",
+        "kode": 4,
+        "nama_konsumen": "Udin",
+        "limit_piutang": 300,
+        "no_telpon": 5202754,
+        "alamat": "pelindung hewan",
+        "salesman": "Ucok"
+      }
+    ]
+  },
+  "pegawai": {
+    "code": 200,
+    "message": "success",
+    "data": [
+      {
+        "kode": 1,
+        "nama_pegawai": "Udin",
+        "jabatan": "admin",
+        "alamat": "pelindung hewan",
+        "handphone": 5202754,
+        "komisi": "0.1%"
+      },
+      {
+        "kode": 2,
+        "nama_pegawai": "Udin",
+        "jabatan": "admin",
+        "alamat": "pelindung hewan",
+        "handphone": 5202754,
+        "komisi": "0.1%"
+      },
+      {
+        "kode": 3,
+        "nama_pegawai": "Udin",
+        "jabatan": "admin",
+        "alamat": "pelindung hewan",
+        "handphone": 5202754,
+        "komisi": "0.1%"
+      },
+      {
+        "kode": 4,
+        "nama_pegawai": "Udin",
+        "jabatan": "admin",
+        "alamat": "pelindung hewan",
+        "handphone": 5202754,
+        "komisi": "0.1%"
+      }
+    ]
+  },
+  "supplier": {
+    "code": 200,
+    "message": "success",
+    "data": [
+      {
+        "kode": 1,
+        "nama_supplier": "Udin",
+        "alamat": "pelindung hewan",
+        "no_telpon": 5202754,
+        "kontak_person": 5202754
+      },
+      {
+        "kode": 2,
+        "nama_supplier": "Udin",
+        "alamat": "pelindung hewan",
+        "no_telpon": 5202754,
+        "kontak_person": 5202754
+      },
+      {
+        "kode": 3,
+        "nama_supplier": "Udin",
+        "alamat": "pelindung hewan",
+        "no_telpon": 5202754,
+        "kontak_person": 5202754
+      },
+      {
+        "kode": 4,
+        "nama_supplier": "Udin",
+        "alamat": "pelindung hewan",
+        "no_telpon": 5202754,
+        "kontak_person": 5202754
+      }
+    ]
+  },
+  "utilitas": {
+    "code": 200,
+    "message": "success",
+    "data": [
+      {
+        "kode": 1,
+        "tipe": "Merk",
+        "nama": "Hello",
+        "biaya": 0
+      },
+      {
+        "kode": 2,
+        "tipe": "Biaya Operasional",
+        "nama": "Jalan",
+        "biaya": 2000
+      }
+    ]
+  },
+  "tipe": {
+    "code": 200,
+    "message": "success",
+    "data": [
+      {
+        "kode": 1,
+        "nama_tipe": "Merk"
+      },
+      {
+        "kode": 1,
+        "nama_tipe": "Biaya Operasional"
+      }
+    ]
+  }
+}
