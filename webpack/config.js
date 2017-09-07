@@ -23,11 +23,13 @@ const IS_PRODUCTION = NODE_ENV === 'production';
 // ----------
 // PLUGINS
 // ----------
-
+const extractUserSASS = new ExtractTextPlugin(outputFiles.userSass);
+const extractVendorCSS = new ExtractTextPlugin(outputFiles.vendorCss);
 // Shared plugins
 const plugins = [
   // Extracts CSS to a file
-  new ExtractTextPlugin(outputFiles.css),
+  extractUserSASS,
+  extractVendorCSS,
   // Injects env variables to our app
   new webpack.DefinePlugin({
     'process.env': {
@@ -74,7 +76,7 @@ if (IS_PRODUCTION) {
 // ----------
 
 // Shared rules
-const rules = [
+let rules = [
   // Babel loader without react hot loader
   // react-hot-loader will is added in webpack.config.js for development only
   {
@@ -124,12 +126,13 @@ const getSassRule = () => {
     ],
   };
 
-  const sassLoaders = [
+  const cssLoaders = [
     {
       loader: 'css-loader',
       options: {
         sourceMap: IS_DEVELOPMENT,
         minimize: IS_PRODUCTION,
+        importLoaders: 2,
       },
     },
     {
@@ -141,35 +144,56 @@ const getSassRule = () => {
         ],
       },
     },
+  ];
+
+  const sassLoaders = cssLoaders.concat([
     {
       loader: 'sass-loader',
       options: { sourceMap: IS_DEVELOPMENT },
     },
-  ];
+  ]
+  );
 
   if (IS_PRODUCTION || SERVER_RENDER) {
-    return {
-      test: /\.sass?$/,
-      exclude: /node_modules/,
-      loader: ExtractTextPlugin.extract({
-        use: sassLoaders,
-      }),
-    };
+    return [
+      {
+        test: /\.sass$/,
+        use: extractUserSASS.extract({
+          fallback: 'style-loader',
+          use: sassLoaders,
+        }),
+      }, {
+        test: /\.css$/,
+        use: extractVendorCSS.extract({
+          fallback: 'style-loader',
+          use: cssLoaders,
+        }),
+      },
+    ];
   }
 
-  return {
-    test: /\.sass?$/,
-    exclude: /node_modules/,
-    use: [
-      {
-        loader: 'style-loader',
-      },
-    ].concat(sassLoaders),
-  };
+  return [
+    {
+      test: /\.sass$/,
+      use: [
+        {
+          loader: 'style-loader',
+        },
+      ].concat(sassLoaders),
+    },
+    {
+      test: /\.css$/,
+      use: [
+        {
+          loader: 'style-loader',
+        },
+      ].concat(cssLoaders),
+    },
+  ];
 };
 
 // Add SASS rule to common rules
-rules.push(getSassRule());
+rules = rules.concat(getSassRule());
 
 
 // ----------

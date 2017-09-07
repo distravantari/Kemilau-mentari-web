@@ -6,6 +6,7 @@ import Menu from 'components/Global/Menu';
 
 // react table
 import ReactTable from 'react-table';
+import 'react-table/react-table.css'
 
 
 import data from '../data.json';
