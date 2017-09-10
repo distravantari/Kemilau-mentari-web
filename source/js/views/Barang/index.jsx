@@ -176,7 +176,17 @@ export default class Barang extends Component {
     const { history } = this.props;
     const columns = [
       {
-        Header: 'Name',
+        Header: 'Kategori',
+        accessor: 'katagori',
+        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      },
+      {
+        Header: 'Merek',
+        accessor: 'merek',
+        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      },
+      {
+        Header: 'Nama Barang',
         accessor: 'nama_barang',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
       },
@@ -189,27 +199,8 @@ export default class Barang extends Component {
         accessor: 'harga_jual',
       },
       {
-        Header: 'Katagori',
-        accessor: 'katagori',
-        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
-      },
-      {
-        Header: 'Merek',
-        accessor: 'merek',
-        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
-      },
-      {
-        Header: 'Tanggal Update',
-        accessor: 'tgl_update',
-      },
-      {
         Header: 'Nama Supplier',
         accessor: 'nama_supplier',
-        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
-      },
-      {
-        Header: 'Operator',
-        accessor: 'operator',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
       },
     ];

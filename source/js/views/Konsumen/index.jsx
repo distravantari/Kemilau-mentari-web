@@ -171,30 +171,9 @@ export default class Konsumen extends Component {
     const { history } = this.props;
     const columns = [
       {
-        Header: 'Area / Kota',
-        accessor: 'area',
-        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
-      },
-      {
-        Header: 'Kode Konsumen',
-        accessor: 'kode',
-        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
-        filterable: false,
-      },
-      {
         Header: 'Nama Konsumen',
         accessor: 'nama_konsumen',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
-        filterable: false,
-      },
-      {
-        Header: 'Limit Piutang',
-        accessor: 'limit_piutang',
-        filterable: false,
-      },
-      {
-        Header: 'No. Telp',
-        accessor: 'no_telpon',
         filterable: false,
       },
       {
@@ -203,8 +182,28 @@ export default class Konsumen extends Component {
         filterable: false,
       },
       {
+        Header: 'Kota',
+        accessor: 'area',
+        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      },
+      {
+        Header: 'No. Telp',
+        accessor: 'no_telpon',
+        filterable: false,
+      },
+      {
+        Header: 'No. Handphone',
+        accessor: 'no_handphone',
+        filterable: false,
+      },
+      {
         Header: 'Salesman',
         accessor: 'salesman',
+      },
+      {
+        Header: 'Limit Piutang',
+        accessor: 'limit_piutang',
+        filterable: false,
       },
     ];
     return (

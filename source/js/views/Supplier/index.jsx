@@ -6,7 +6,7 @@ import Menu from 'components/Global/Menu';
 
 // react table
 import ReactTable from 'react-table';
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
 
 
 import data from '../data.json';
@@ -38,6 +38,9 @@ export default class Supplier extends Component {
 
     this.handleNoTelpChange = this.handleNoTelpChange.bind(this);
     this.handleIsolatedNoTelpChange = this.handleIsolatedNoTelpChange.bind(this);
+
+    this.handleNoHandphoneChange = this.handleNoHandphoneChange.bind(this);
+    this.handleIsolatedNoHandphoneChange = this.handleIsolatedNoHandphoneChange.bind(this);
   }
 
   handleKotaChange(e) {
@@ -96,6 +99,24 @@ export default class Supplier extends Component {
     } });
   }
 
+  handleNoHandphoneChange(e) {
+    this.setState({
+      newDataSupplier: {
+        ...this.state.newDataSupplier,
+        no_handphone: e.target.value,
+      },
+    });
+  }
+
+  handleIsolatedNoHandphoneChange(e) {
+    this.setState({
+      isolatedDataSupplier: {
+        ...this.state.isolatedDataSupplier,
+        no_handphone: e.target.value,
+      },
+    });
+  }
+
   textFilter(filter, row) {
     const result = parseInt(row[filter.id].toUpperCase().indexOf(filter.value.toUpperCase()), 10);
     if (result < 0) {
@@ -119,11 +140,6 @@ export default class Supplier extends Component {
     const { history } = this.props;
     const columns = [
       {
-        Header: 'Kode',
-        accessor: 'kode',
-        filterable: false,
-      },
-      {
         Header: 'Nama Supplier',
         accessor: 'nama_supplier',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
@@ -135,8 +151,13 @@ export default class Supplier extends Component {
         filterable: false,
       },
       {
-        Header: 'NoTelp',
+        Header: 'No. Telp',
         accessor: 'no_telpon',
+        filterable: false,
+      },
+      {
+        Header: 'No. Handphone',
+        accessor: 'no_handphone',
         filterable: false,
       },
     ];
@@ -177,6 +198,16 @@ export default class Supplier extends Component {
                     value={ this.state.isolatedDataSupplier.no_telpon }
                     onChange={ this.handleIsolatedNoTelpChange }
                     placeholder='No Telepon Supplier'
+                  />
+                  <FormControl.Feedback />
+                </FormGroup>
+                <FormGroup>
+                  <ControlLabel>No Handphone Supplier</ControlLabel>
+                  <FormControl
+                    type='text'
+                    value={ this.state.isolatedDataSupplier.no_handphone }
+                    onChange={ this.handleIsolatedNoHandphoneChange }
+                    placeholder='No Handphone Supplier'
                   />
                   <FormControl.Feedback />
                 </FormGroup>
@@ -231,6 +262,16 @@ export default class Supplier extends Component {
                             value={ this.state.newDataSupplier.no_telpon }
                             onChange={ this.handleNoTelpChange }
                             placeholder='No Telepon Supplier'
+                          />
+                          <FormControl.Feedback />
+                        </FormGroup>
+                        <FormGroup>
+                          <ControlLabel>No Handphone Supplier</ControlLabel>
+                          <FormControl
+                            type='text'
+                            value={ this.state.newDataSupplier.no_handphone }
+                            onChange={ this.handleNoHandphoneChange }
+                            placeholder='No Handphone Supplier'
                           />
                           <FormControl.Feedback />
                         </FormGroup>

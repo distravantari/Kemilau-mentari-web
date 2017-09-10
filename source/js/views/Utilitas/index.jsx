@@ -165,11 +165,6 @@ export default class Utilitas extends Component {
     const { history } = this.props;
     const columns = [
       {
-        Header: 'Kode',
-        accessor: 'kode',
-        filterable: false,
-      },
-      {
         Header: 'Nama Utilitas',
         accessor: 'nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
@@ -178,11 +173,6 @@ export default class Utilitas extends Component {
       {
         Header: 'Tipe Utilitas',
         accessor: 'tipe',
-        filterable: false,
-      },
-      {
-        Header: 'Biaya',
-        accessor: 'biaya',
         filterable: false,
       },
     ];
@@ -223,10 +213,11 @@ export default class Utilitas extends Component {
                     <option value='3'>Kota</option>
                     <option value='4'>Jabatan</option>
                     <option value='5'>Satuan</option>
-                    <option value='6'>Biaya Operasional</option>
+                    <option value='6'>Salesman</option>
+                    <option value='7'>Biaya Operasional</option>
                   </FormControl>
                 </FormGroup>
-                <FormGroup hidden={ parseInt(this.state.isolatedDataUtilitas.tipe, 10) !== 6 }>
+                <FormGroup hidden={ parseInt(this.state.isolatedDataUtilitas.tipe, 10) !== 7 }>
                   <ControlLabel>Biaya Utilitas</ControlLabel>
                   <FormControl
                     type='number'
@@ -311,10 +302,11 @@ export default class Utilitas extends Component {
                             <option value='3'>Kota</option>
                             <option value='4'>Jabatan</option>
                             <option value='5'>Satuan</option>
-                            <option value='6'>Biaya Operasional</option>
+                            <option value='6'>Salesman</option>
+                            <option value='7'>Biaya Operasional</option>
                           </FormControl>
                         </FormGroup>
-                        <FormGroup hidden={ parseInt(this.state.newDataUtilitas.tipe, 10) !== 6 }>
+                        <FormGroup hidden={ parseInt(this.state.newDataUtilitas.tipe, 10) !== 7 }>
                           <ControlLabel>Biaya Utilitas</ControlLabel>
                           <FormControl
                             type='number'

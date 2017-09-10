@@ -159,13 +159,13 @@ export default class Pegawai extends Component {
         filterable: false,
       },
       {
-        Header: 'Handphone',
-        accessor: 'handphone',
+        Header: 'Alamat',
+        accessor: 'alamat',
         filterable: false,
       },
       {
-        Header: 'Alamat',
-        accessor: 'alamat',
+        Header: 'Handphone',
+        accessor: 'handphone',
         filterable: false,
       },
       {
@@ -229,7 +229,7 @@ export default class Pegawai extends Component {
                   </FormControl>
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>Prosentase Komisi</ControlLabel>
+                  <ControlLabel>% Komisi</ControlLabel>
                   <FormControl
                     type='text'
                     value={ this.state.isolatedDataPegawai.komisi }
