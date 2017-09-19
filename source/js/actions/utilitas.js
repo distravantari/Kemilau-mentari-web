@@ -1,19 +1,19 @@
 import UtilitasService from 'api/UtilitasService';
 
 export const GET_UTILITAS_START = 'GET_UTILITAS_START';
-export const GET_UTILITAS_SUCCESS = 'GET_UTILITAS_SUCCSS';
+export const GET_UTILITAS_SUCCESS = 'GET_UTILITAS_SUCCESS';
 export const GET_UTILITAS_ERROR = 'GET_UTILITAS_ERROR';
 
 export const ADD_UTILITAS_START = 'ADD_UTILITAS_START';
-export const ADD_UTILITAS_SUCCESS = 'ADD_UTILITAS_SUCCSS';
+export const ADD_UTILITAS_SUCCESS = 'ADD_UTILITAS_SUCCESS';
 export const ADD_UTILITAS_ERROR = 'ADD_UTILITAS_ERROR';
 
 export const EDIT_UTILITAS_START = 'EDIT_UTILITAS_START';
-export const EDIT_UTILITAS_SUCCESS = 'EDIT_UTILITAS_SUCCSS';
+export const EDIT_UTILITAS_SUCCESS = 'EDIT_UTILITAS_SUCCESS';
 export const EDIT_UTILITAS_ERROR = 'EDIT_UTILITAS_ERROR';
 
 export const DELETE_UTILITAS_START = 'DELETE_UTILITAS_START';
-export const DELETE_UTILITAS_SUCCESS = 'DELETE_UTILITAS_SUCCSS';
+export const DELETE_UTILITAS_SUCCESS = 'DELETE_UTILITAS_SUCCESS';
 export const DELETE_UTILITAS_ERROR = 'DELETE_UTILITAS_ERROR';
 
 
@@ -25,14 +25,14 @@ function getUtilitasStart() {
 
 function getUtilitasSuccess(data) {
   return {
-    type: GET_UTILITAS_START,
+    type: GET_UTILITAS_SUCCESS,
     data,
   };
 }
 
 function getUtilitasError(error) {
   return {
-    type: GET_UTILITAS_START,
+    type: GET_UTILITAS_ERROR,
     error,
   };
 }
@@ -43,7 +43,7 @@ export function getUtilitas() {
 
     UtilitasService.getUtilitas()
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(getUtilitasSuccess(response));
         } else {
           dispatch(getUtilitasError(response));
@@ -61,14 +61,14 @@ function addUtilitasStart() {
 
 function addUtilitasSuccess(data) {
   return {
-    type: ADD_UTILITAS_START,
+    type: ADD_UTILITAS_SUCCESS,
     data,
   };
 }
 
 function addUtilitasError(error) {
   return {
-    type: ADD_UTILITAS_START,
+    type: ADD_UTILITAS_ERROR,
     error,
   };
 }
@@ -79,7 +79,7 @@ export function addUtilitas(dataUtilitas) {
 
     UtilitasService.addUtilitas(dataUtilitas)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(addUtilitasSuccess(response));
         } else {
           dispatch(addUtilitasError(response));
@@ -97,14 +97,14 @@ function editUtilitasStart() {
 
 function editUtilitasSuccess(data) {
   return {
-    type: EDIT_UTILITAS_START,
+    type: EDIT_UTILITAS_SUCCESS,
     data,
   };
 }
 
 function editUtilitasError(error) {
   return {
-    type: EDIT_UTILITAS_START,
+    type: EDIT_UTILITAS_ERROR,
     error,
   };
 }
@@ -115,7 +115,7 @@ export function editUtilitas(id, dataUtilitas) {
 
     UtilitasService.editUtilitas(id, dataUtilitas)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(editUtilitasSuccess(response));
         } else {
           dispatch(editUtilitasError(response));
@@ -133,14 +133,14 @@ function deleteUtilitasStart() {
 
 function deleteUtilitasSuccess(data) {
   return {
-    type: DELETE_UTILITAS_START,
+    type: DELETE_UTILITAS_SUCCESS,
     data,
   };
 }
 
 function deleteUtilitasError(error) {
   return {
-    type: DELETE_UTILITAS_START,
+    type: DELETE_UTILITAS_ERROR,
     error,
   };
 }
@@ -151,7 +151,7 @@ export function deleteUtilitas(id) {
 
     UtilitasService.deleteUtilitas(id)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(deleteUtilitasSuccess(response));
         } else {
           dispatch(deleteUtilitasError(response));

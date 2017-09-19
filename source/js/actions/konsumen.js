@@ -1,19 +1,19 @@
 import KonsumenService from 'api/KonsumenService';
 
 export const GET_KONSUMEN_START = 'GET_KONSUMEN_START';
-export const GET_KONSUMEN_SUCCESS = 'GET_KONSUMEN_SUCCSS';
+export const GET_KONSUMEN_SUCCESS = 'GET_KONSUMEN_SUCCESS';
 export const GET_KONSUMEN_ERROR = 'GET_KONSUMEN_ERROR';
 
 export const ADD_KONSUMEN_START = 'ADD_KONSUMEN_START';
-export const ADD_KONSUMEN_SUCCESS = 'ADD_KONSUMEN_SUCCSS';
+export const ADD_KONSUMEN_SUCCESS = 'ADD_KONSUMEN_SUCCESS';
 export const ADD_KONSUMEN_ERROR = 'ADD_KONSUMEN_ERROR';
 
 export const EDIT_KONSUMEN_START = 'EDIT_KONSUMEN_START';
-export const EDIT_KONSUMEN_SUCCESS = 'EDIT_KONSUMEN_SUCCSS';
+export const EDIT_KONSUMEN_SUCCESS = 'EDIT_KONSUMEN_SUCCESS';
 export const EDIT_KONSUMEN_ERROR = 'EDIT_KONSUMEN_ERROR';
 
 export const DELETE_KONSUMEN_START = 'DELETE_KONSUMEN_START';
-export const DELETE_KONSUMEN_SUCCESS = 'DELETE_KONSUMEN_SUCCSS';
+export const DELETE_KONSUMEN_SUCCESS = 'DELETE_KONSUMEN_SUCCESS';
 export const DELETE_KONSUMEN_ERROR = 'DELETE_KONSUMEN_ERROR';
 
 
@@ -25,14 +25,14 @@ function getKonsumenStart() {
 
 function getKonsumenSuccess(data) {
   return {
-    type: GET_KONSUMEN_START,
+    type: GET_KONSUMEN_SUCCESS,
     data,
   };
 }
 
 function getKonsumenError(error) {
   return {
-    type: GET_KONSUMEN_START,
+    type: GET_KONSUMEN_ERROR,
     error,
   };
 }
@@ -43,7 +43,7 @@ export function getKonsumen() {
 
     KonsumenService.getKonsumen()
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(getKonsumenSuccess(response));
         } else {
           dispatch(getKonsumenError(response));
@@ -61,14 +61,14 @@ function addKonsumenStart() {
 
 function addKonsumenSuccess(data) {
   return {
-    type: ADD_KONSUMEN_START,
+    type: ADD_KONSUMEN_SUCCESS,
     data,
   };
 }
 
 function addKonsumenError(error) {
   return {
-    type: ADD_KONSUMEN_START,
+    type: ADD_KONSUMEN_ERROR,
     error,
   };
 }
@@ -79,7 +79,7 @@ export function addKonsumen(dataKonsumen) {
 
     KonsumenService.addKonsumen(dataKonsumen)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(addKonsumenSuccess(response));
         } else {
           dispatch(addKonsumenError(response));
@@ -97,14 +97,14 @@ function editKonsumenStart() {
 
 function editKonsumenSuccess(data) {
   return {
-    type: EDIT_KONSUMEN_START,
+    type: EDIT_KONSUMEN_SUCCESS,
     data,
   };
 }
 
 function editKonsumenError(error) {
   return {
-    type: EDIT_KONSUMEN_START,
+    type: EDIT_KONSUMEN_ERROR,
     error,
   };
 }
@@ -115,7 +115,7 @@ export function editKonsumen(id, dataKonsumen) {
 
     KonsumenService.editKonsumen(id, dataKonsumen)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(editKonsumenSuccess(response));
         } else {
           dispatch(editKonsumenError(response));
@@ -133,14 +133,14 @@ function deleteKonsumenStart() {
 
 function deleteKonsumenSuccess(data) {
   return {
-    type: DELETE_KONSUMEN_START,
+    type: DELETE_KONSUMEN_SUCCESS,
     data,
   };
 }
 
 function deleteKonsumenError(error) {
   return {
-    type: DELETE_KONSUMEN_START,
+    type: DELETE_KONSUMEN_ERROR,
     error,
   };
 }
@@ -151,7 +151,7 @@ export function deleteKonsumen(id) {
 
     KonsumenService.deleteKonsumen(id)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(deleteKonsumenSuccess(response));
         } else {
           dispatch(deleteKonsumenError(response));

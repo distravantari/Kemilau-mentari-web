@@ -1,19 +1,19 @@
 import PegawaiService from 'api/PegawaiService';
 
 export const GET_PEGAWAI_START = 'GET_PEGAWAI_START';
-export const GET_PEGAWAI_SUCCESS = 'GET_PEGAWAI_SUCCSS';
+export const GET_PEGAWAI_SUCCESS = 'GET_PEGAWAI_SUCCESS';
 export const GET_PEGAWAI_ERROR = 'GET_PEGAWAI_ERROR';
 
 export const ADD_PEGAWAI_START = 'ADD_PEGAWAI_START';
-export const ADD_PEGAWAI_SUCCESS = 'ADD_PEGAWAI_SUCCSS';
+export const ADD_PEGAWAI_SUCCESS = 'ADD_PEGAWAI_SUCCESS';
 export const ADD_PEGAWAI_ERROR = 'ADD_PEGAWAI_ERROR';
 
 export const EDIT_PEGAWAI_START = 'EDIT_PEGAWAI_START';
-export const EDIT_PEGAWAI_SUCCESS = 'EDIT_PEGAWAI_SUCCSS';
+export const EDIT_PEGAWAI_SUCCESS = 'EDIT_PEGAWAI_SUCCESS';
 export const EDIT_PEGAWAI_ERROR = 'EDIT_PEGAWAI_ERROR';
 
 export const DELETE_PEGAWAI_START = 'DELETE_PEGAWAI_START';
-export const DELETE_PEGAWAI_SUCCESS = 'DELETE_PEGAWAI_SUCCSS';
+export const DELETE_PEGAWAI_SUCCESS = 'DELETE_PEGAWAI_SUCCESS';
 export const DELETE_PEGAWAI_ERROR = 'DELETE_PEGAWAI_ERROR';
 
 
@@ -25,14 +25,14 @@ function getPegawaiStart() {
 
 function getPegawaiSuccess(data) {
   return {
-    type: GET_PEGAWAI_START,
+    type: GET_PEGAWAI_SUCCESS,
     data,
   };
 }
 
 function getPegawaiError(error) {
   return {
-    type: GET_PEGAWAI_START,
+    type: GET_PEGAWAI_ERROR,
     error,
   };
 }
@@ -43,7 +43,7 @@ export function getPegawai() {
 
     PegawaiService.getPegawai()
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(getPegawaiSuccess(response));
         } else {
           dispatch(getPegawaiError(response));
@@ -61,14 +61,14 @@ function addPegawaiStart() {
 
 function addPegawaiSuccess(data) {
   return {
-    type: ADD_PEGAWAI_START,
+    type: ADD_PEGAWAI_SUCCESS,
     data,
   };
 }
 
 function addPegawaiError(error) {
   return {
-    type: ADD_PEGAWAI_START,
+    type: ADD_PEGAWAI_ERROR,
     error,
   };
 }
@@ -79,7 +79,7 @@ export function addPegawai(dataPegawai) {
 
     PegawaiService.addPegawai(dataPegawai)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(addPegawaiSuccess(response));
         } else {
           dispatch(addPegawaiError(response));
@@ -97,14 +97,14 @@ function editPegawaiStart() {
 
 function editPegawaiSuccess(data) {
   return {
-    type: EDIT_PEGAWAI_START,
+    type: EDIT_PEGAWAI_SUCCESS,
     data,
   };
 }
 
 function editPegawaiError(error) {
   return {
-    type: EDIT_PEGAWAI_START,
+    type: EDIT_PEGAWAI_ERROR,
     error,
   };
 }
@@ -115,7 +115,7 @@ export function editPegawai(id, dataPegawai) {
 
     PegawaiService.editPegawai(id, dataPegawai)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(editPegawaiSuccess(response));
         } else {
           dispatch(editPegawaiError(response));
@@ -133,14 +133,14 @@ function deletePegawaiStart() {
 
 function deletePegawaiSuccess(data) {
   return {
-    type: DELETE_PEGAWAI_START,
+    type: DELETE_PEGAWAI_SUCCESS,
     data,
   };
 }
 
 function deletePegawaiError(error) {
   return {
-    type: DELETE_PEGAWAI_START,
+    type: DELETE_PEGAWAI_ERROR,
     error,
   };
 }
@@ -151,7 +151,7 @@ export function deletePegawai(id) {
 
     PegawaiService.deletePegawai(id)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(deletePegawaiSuccess(response));
         } else {
           dispatch(deletePegawaiError(response));

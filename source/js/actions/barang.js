@@ -1,19 +1,19 @@
 import BarangService from 'api/BarangService';
 
 export const GET_BARANG_START = 'GET_BARANG_START';
-export const GET_BARANG_SUCCESS = 'GET_BARANG_SUCCSS';
+export const GET_BARANG_SUCCESS = 'GET_BARANG_SUCCESS';
 export const GET_BARANG_ERROR = 'GET_BARANG_ERROR';
 
 export const ADD_BARANG_START = 'ADD_BARANG_START';
-export const ADD_BARANG_SUCCESS = 'ADD_BARANG_SUCCSS';
+export const ADD_BARANG_SUCCESS = 'ADD_BARANG_SUCCESS';
 export const ADD_BARANG_ERROR = 'ADD_BARANG_ERROR';
 
 export const EDIT_BARANG_START = 'EDIT_BARANG_START';
-export const EDIT_BARANG_SUCCESS = 'EDIT_BARANG_SUCCSS';
+export const EDIT_BARANG_SUCCESS = 'EDIT_BARANG_SUCCESS';
 export const EDIT_BARANG_ERROR = 'EDIT_BARANG_ERROR';
 
 export const DELETE_BARANG_START = 'DELETE_BARANG_START';
-export const DELETE_BARANG_SUCCESS = 'DELETE_BARANG_SUCCSS';
+export const DELETE_BARANG_SUCCESS = 'DELETE_BARANG_SUCCESS';
 export const DELETE_BARANG_ERROR = 'DELETE_BARANG_ERROR';
 
 
@@ -25,15 +25,14 @@ function getBarangStart() {
 
 function getBarangSuccess(data) {
   return {
-    type: GET_BARANG_START,
+    type: GET_BARANG_SUCCESS,
     data,
   };
 }
 
 function getBarangError(error) {
   return {
-    type: GET_BARANG_START,
-    error,
+    type: GET_BARANG_ERROR,
   };
 }
 
@@ -43,7 +42,7 @@ export function getBarang() {
 
     BarangService.getBarang()
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(getBarangSuccess(response));
         } else {
           dispatch(getBarangError(response));
@@ -61,14 +60,14 @@ function addBarangStart() {
 
 function addBarangSuccess(data) {
   return {
-    type: ADD_BARANG_START,
+    type: ADD_BARANG_SUCCESS,
     data,
   };
 }
 
 function addBarangError(error) {
   return {
-    type: ADD_BARANG_START,
+    type: ADD_BARANG_ERROR,
     error,
   };
 }
@@ -79,7 +78,7 @@ export function addBarang(dataBarang) {
 
     BarangService.addBarang(dataBarang)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(addBarangSuccess(response));
         } else {
           dispatch(addBarangError(response));
@@ -97,14 +96,14 @@ function editBarangStart() {
 
 function editBarangSuccess(data) {
   return {
-    type: EDIT_BARANG_START,
+    type: EDIT_BARANG_SUCCESS,
     data,
   };
 }
 
 function editBarangError(error) {
   return {
-    type: EDIT_BARANG_START,
+    type: EDIT_BARANG_ERROR,
     error,
   };
 }
@@ -115,7 +114,7 @@ export function editBarang(id, dataBarang) {
 
     BarangService.editBarang(id, dataBarang)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(editBarangSuccess(response));
         } else {
           dispatch(editBarangError(response));
@@ -133,14 +132,14 @@ function deleteBarangStart() {
 
 function deleteBarangSuccess(data) {
   return {
-    type: DELETE_BARANG_START,
+    type: DELETE_BARANG_SUCCESS,
     data,
   };
 }
 
 function deleteBarangError(error) {
   return {
-    type: DELETE_BARANG_START,
+    type: DELETE_BARANG_ERROR,
     error,
   };
 }
@@ -151,7 +150,7 @@ export function deleteBarang(id) {
 
     BarangService.deleteBarang(id)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(deleteBarangSuccess(response));
         } else {
           dispatch(deleteBarangError(response));

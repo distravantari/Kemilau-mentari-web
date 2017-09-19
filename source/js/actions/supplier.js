@@ -1,19 +1,19 @@
 import SupplierService from 'api/SupplierService';
 
 export const GET_SUPPLIER_START = 'GET_SUPPLIER_START';
-export const GET_SUPPLIER_SUCCESS = 'GET_SUPPLIER_SUCCSS';
+export const GET_SUPPLIER_SUCCESS = 'GET_SUPPLIER_SUCCESS';
 export const GET_SUPPLIER_ERROR = 'GET_SUPPLIER_ERROR';
 
 export const ADD_SUPPLIER_START = 'ADD_SUPPLIER_START';
-export const ADD_SUPPLIER_SUCCESS = 'ADD_SUPPLIER_SUCCSS';
+export const ADD_SUPPLIER_SUCCESS = 'ADD_SUPPLIER_SUCCESS';
 export const ADD_SUPPLIER_ERROR = 'ADD_SUPPLIER_ERROR';
 
 export const EDIT_SUPPLIER_START = 'EDIT_SUPPLIER_START';
-export const EDIT_SUPPLIER_SUCCESS = 'EDIT_SUPPLIER_SUCCSS';
+export const EDIT_SUPPLIER_SUCCESS = 'EDIT_SUPPLIER_SUCCESS';
 export const EDIT_SUPPLIER_ERROR = 'EDIT_SUPPLIER_ERROR';
 
 export const DELETE_SUPPLIER_START = 'DELETE_SUPPLIER_START';
-export const DELETE_SUPPLIER_SUCCESS = 'DELETE_SUPPLIER_SUCCSS';
+export const DELETE_SUPPLIER_SUCCESS = 'DELETE_SUPPLIER_SUCCESS';
 export const DELETE_SUPPLIER_ERROR = 'DELETE_SUPPLIER_ERROR';
 
 
@@ -25,14 +25,14 @@ function getSupplierStart() {
 
 function getSupplierSuccess(data) {
   return {
-    type: GET_SUPPLIER_START,
+    type: GET_SUPPLIER_SUCCESS,
     data,
   };
 }
 
 function getSupplierError(error) {
   return {
-    type: GET_SUPPLIER_START,
+    type: GET_SUPPLIER_ERROR,
     error,
   };
 }
@@ -43,7 +43,7 @@ export function getSupplier() {
 
     SupplierService.getSupplier()
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(getSupplierSuccess(response));
         } else {
           dispatch(getSupplierError(response));
@@ -61,14 +61,14 @@ function addSupplierStart() {
 
 function addSupplierSuccess(data) {
   return {
-    type: ADD_SUPPLIER_START,
+    type: ADD_SUPPLIER_SUCCESS,
     data,
   };
 }
 
 function addSupplierError(error) {
   return {
-    type: ADD_SUPPLIER_START,
+    type: ADD_SUPPLIER_ERROR,
     error,
   };
 }
@@ -79,7 +79,7 @@ export function addSupplier(dataSupplier) {
 
     SupplierService.addSupplier(dataSupplier)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(addSupplierSuccess(response));
         } else {
           dispatch(addSupplierError(response));
@@ -97,14 +97,14 @@ function editSupplierStart() {
 
 function editSupplierSuccess(data) {
   return {
-    type: EDIT_SUPPLIER_START,
+    type: EDIT_SUPPLIER_SUCCESS,
     data,
   };
 }
 
 function editSupplierError(error) {
   return {
-    type: EDIT_SUPPLIER_START,
+    type: EDIT_SUPPLIER_ERROR,
     error,
   };
 }
@@ -115,7 +115,7 @@ export function editSupplier(id, dataSupplier) {
 
     SupplierService.editSupplier(id, dataSupplier)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(editSupplierSuccess(response));
         } else {
           dispatch(editSupplierError(response));
@@ -133,14 +133,14 @@ function deleteSupplierStart() {
 
 function deleteSupplierSuccess(data) {
   return {
-    type: DELETE_SUPPLIER_START,
+    type: DELETE_SUPPLIER_SUCCESS,
     data,
   };
 }
 
 function deleteSupplierError(error) {
   return {
-    type: DELETE_SUPPLIER_START,
+    type: DELETE_SUPPLIER_ERROR,
     error,
   };
 }
@@ -151,7 +151,7 @@ export function deleteSupplier(id) {
 
     SupplierService.deleteSupplier(id)
       .then(response => {
-        if (response.results) {
+        if (response.code === 200) {
           dispatch(deleteSupplierSuccess(response));
         } else {
           dispatch(deleteSupplierError(response));
