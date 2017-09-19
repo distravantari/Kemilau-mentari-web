@@ -1,16 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
+
+import { getKonsumen, addKonsumen, editKonsumen, deleteKonsumen } from 'actions/konsumen';
+import { getUtilitas } from 'actions/utilitas';
+import { getPegawai } from 'actions/pegawai';
 
 import Menu from 'components/Global/Menu';
 
 // react table
 import ReactTable from 'react-table';
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
 
 
 import data from '../data.json';
 
+@connect(state => ({
+  konsumen: state.konsumen.get('konsumen'),
+  error: state.konsumen.get('error'),
+  loading: state.konsumen.get('loading'),
+  shouldUpdate: state.konsumen.get('shouldUpdate'),
+
+  utilitas: state.utilitas.get('utilitas'),
+  utilitasError: state.utilitas.get('error'),
+  utilitasLoading: state.utilitas.get('loading'),
+
+  pegawai: state.pegawai.get('pegawai'),
+  pegawaiError: state.pegawai.get('error'),
+  pegawaiLoading: state.pegawai.get('loading'),
+}))
 export default class Konsumen extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -24,6 +43,8 @@ export default class Konsumen extends Component {
       newDataKonsumen: {},
       isolatedDataKonsumen: {},
       showModal: false,
+      listKota: [],
+      listSalesman: [],
     };
 
     this.handleShowModal = this.handleShowModal.bind(this);
@@ -49,6 +70,32 @@ export default class Konsumen extends Component {
 
     this.handleSalesmanChange = this.handleSalesmanChange.bind(this);
     this.handleIsolatedSalesmanChange = this.handleIsolatedSalesmanChange.bind(this);
+
+    this.handleAddKonsumen = this.handleAddKonsumen.bind(this);
+    this.handleEditKonsumen = this.handleEditKonsumen.bind(this);
+    this.handleDeleteKonsumen = this.handleDeleteKonsumen.bind(this);
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(getKonsumen());
+    dispatch(getUtilitas());
+    dispatch(getPegawai());
+  }
+
+  componentDidUpdate(prevProps) {
+    const { shouldUpdate, dispatch, utilitas } = this.props;
+
+    if (!prevProps.shouldUpdate && shouldUpdate) {
+      dispatch(getKonsumen());
+      this.setState({ showModal: false });
+    }
+
+    if (prevProps.utilitas.get('data') !== utilitas.get('data')) {
+      const kota = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'KOTA');
+      const salesman = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'JABATAN' && item.nama.toUpperCase() === 'SALESMAN');
+      this.setState({ listKota: kota, listSalesman: salesman });
+    }
   }
 
   handleKotaChange(e) {
@@ -67,14 +114,14 @@ export default class Konsumen extends Component {
   handleNamaChange(e) {
     this.setState({ newDataKonsumen: {
       ...this.state.newDataKonsumen,
-      nama_konsumen: e.target.value,
+      nama: e.target.value,
     } });
   }
 
   handleIsolatedNamaChange(e) {
     this.setState({ isolatedDataKonsumen: {
       ...this.state.isolatedDataKonsumen,
-      nama_konsumen: e.target.value,
+      nama: e.target.value,
     } });
   }
 
@@ -95,28 +142,28 @@ export default class Konsumen extends Component {
   handleNoTelpChange(e) {
     this.setState({ newDataKonsumen: {
       ...this.state.newDataKonsumen,
-      no_telpon: e.target.value,
+      no_telp: e.target.value,
     } });
   }
 
   handleIsolatedNoTelpChange(e) {
     this.setState({ isolatedDataKonsumen: {
       ...this.state.isolatedDataKonsumen,
-      no_telpon: e.target.value,
+      no_telp: e.target.value,
     } });
   }
 
   handleHandphoneChange(e) {
     this.setState({ newDataKonsumen: {
       ...this.state.newDataKonsumen,
-      handphone: e.target.value,
+      no_handphone: e.target.value,
     } });
   }
 
   handleIsolatedHandphoneChange(e) {
     this.setState({ isolatedDataKonsumen: {
       ...this.state.isolatedDataKonsumen,
-      handphone: e.target.value,
+      no_handphone: e.target.value,
     } });
   }
 
@@ -157,22 +204,56 @@ export default class Konsumen extends Component {
   }
 
   handleShowModal(e, rowInfo) {
-    const { dataKonsumen } = this.state;
-    const isolatedDataKonsumen = dataKonsumen.filter((item) => item === rowInfo.original)[0];
-    this.setState({ isolatedDataKonsumen, showModal: true });
+    const { konsumen } = this.props;
+    const isolatedDataKonsumen = konsumen.get('data').filter((item) => item === rowInfo.original)[0];
+    const temp = {
+      id: isolatedDataKonsumen.id,
+      alamat: isolatedDataKonsumen.alamat,
+      kota: isolatedDataKonsumen.kota.id,
+      limit_piutang: isolatedDataKonsumen.limit_piutang,
+      nama: isolatedDataKonsumen.nama,
+      no_handphone: isolatedDataKonsumen.no_handphone,
+      no_telp: isolatedDataKonsumen.no_telp,
+      salesman: isolatedDataKonsumen.salesman.id,
+    };
+    this.setState({ isolatedDataKonsumen: temp, showModal: true });
   }
 
   handleCloseModal() {
     this.setState({ isolatedDataKonsumen: {}, showModal: false });
   }
 
+  handleAddKonsumen(e) {
+    e.preventDefault();
+    const { newDataKonsumen } = this.state;
+    const { dispatch } = this.props;
+
+    dispatch(addKonsumen(newDataKonsumen));
+  }
+
+  handleEditKonsumen(e) {
+    e.preventDefault();
+    const { isolatedDataKonsumen } = this.state;
+    const { dispatch } = this.props;
+
+    dispatch(editKonsumen(isolatedDataKonsumen.id, isolatedDataKonsumen));
+  }
+
+  handleDeleteKonsumen(e) {
+    e.preventDefault();
+    const { isolatedDataKonsumen } = this.state;
+    const { dispatch } = this.props;
+
+    dispatch(deleteKonsumen(isolatedDataKonsumen.id));
+  }
+
   render() {
-    const { dataKonsumen } = this.state;
-    const { history } = this.props;
+    const { history, konsumen } = this.props;
+    const { listKota, listSalesman } = this.state;
     const columns = [
       {
         Header: 'Nama Konsumen',
-        accessor: 'nama_konsumen',
+        accessor: 'nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
         filterable: false,
       },
@@ -183,12 +264,12 @@ export default class Konsumen extends Component {
       },
       {
         Header: 'Kota',
-        accessor: 'area',
+        accessor: 'kota.nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
       },
       {
         Header: 'No. Telp',
-        accessor: 'no_telpon',
+        accessor: 'no_telp',
         filterable: false,
       },
       {
@@ -198,7 +279,7 @@ export default class Konsumen extends Component {
       },
       {
         Header: 'Salesman',
-        accessor: 'salesman',
+        accessor: 'salesman.nama',
       },
       {
         Header: 'Limit Piutang',
@@ -220,18 +301,16 @@ export default class Konsumen extends Component {
                   <ControlLabel>Kota</ControlLabel>
                   <FormControl componentClass='select' placeholder='Kota' onChange={ this.handleIsolatedKotaChange } value={ this.state.isolatedDataKonsumen.kota }>
                     <option value='0'>--Pilih Kota--</option>
-                    <option value='1'>Kota 1</option>
-                    <option value='2'>Kota 2</option>
-                    <option value='3'>Kota 3</option>
-                    <option value='4'>Kota 4</option>
-                    <option value='5'>Kota 5</option>
+                    {
+                      listKota.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                    }
                   </FormControl>
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>Nama Konsumen</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataKonsumen.nama_konsumen }
+                    value={ this.state.isolatedDataKonsumen.nama }
                     onChange={ this.handleIsolatedNamaChange }
                     placeholder='Nama Konsumen'
                   />
@@ -251,7 +330,7 @@ export default class Konsumen extends Component {
                   <ControlLabel>No. Telp Konsumen</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataKonsumen.no_telpon }
+                    value={ this.state.isolatedDataKonsumen.no_telp }
                     onChange={ this.handleIsolatedNoTelpChange }
                     placeholder='No. Telp Konsumen'
                   />
@@ -261,7 +340,7 @@ export default class Konsumen extends Component {
                   <ControlLabel>Handphone Konsumen</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataKonsumen.handphone }
+                    value={ this.state.isolatedDataKonsumen.no_handphone }
                     onChange={ this.handleIsolatedHandphoneChange }
                     placeholder='Handphone Konsumen'
                   />
@@ -281,17 +360,15 @@ export default class Konsumen extends Component {
                   <ControlLabel>Salesman</ControlLabel>
                   <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleIsolatedSalesmanChange } value={ this.state.isolatedDataKonsumen.salesman }>
                     <option value='0'>--Pilih Salesman--</option>
-                    <option value='1'>Salesman 1</option>
-                    <option value='2'>Salesman 2</option>
-                    <option value='3'>Salesman 3</option>
-                    <option value='4'>Salesman 4</option>
-                    <option value='5'>Salesman 5</option>
+                    {
+                      listSalesman.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                    }
                   </FormControl>
                 </FormGroup>
                 <FormGroup>
                   <HelpBlock>{null}</HelpBlock>
-                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Edit Konsumen</Button>
-                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteProduct } >Delete Konsumen</Button>
+                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditKonsumen }>Edit Konsumen</Button>
+                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteKonsumen } >Delete Konsumen</Button>
                 </FormGroup>
               </Form>
             </Modal.Body>
@@ -316,18 +393,16 @@ export default class Konsumen extends Component {
                           <ControlLabel>Kota</ControlLabel>
                           <FormControl componentClass='select' placeholder='Kota' onChange={ this.handleKotaChange } value={ this.state.newDataKonsumen.kota }>
                             <option value='0'>--Pilih Kota--</option>
-                            <option value='1'>Kota 1</option>
-                            <option value='2'>Kota 2</option>
-                            <option value='3'>Kota 3</option>
-                            <option value='4'>Kota 4</option>
-                            <option value='5'>Kota 5</option>
+                            {
+                              listKota.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                            }
                           </FormControl>
                         </FormGroup>
                         <FormGroup>
                           <ControlLabel>Nama Konsumen</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataKonsumen.nama_konsumen }
+                            value={ this.state.newDataKonsumen.nama }
                             onChange={ this.handleNamaChange }
                             placeholder='Nama Konsumen'
                           />
@@ -347,7 +422,7 @@ export default class Konsumen extends Component {
                           <ControlLabel>No. Telp Konsumen</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataKonsumen.no_telpon }
+                            value={ this.state.newDataKonsumen.no_telp }
                             onChange={ this.handleNoTelpChange }
                             placeholder='No. Telp Konsumen'
                           />
@@ -357,7 +432,7 @@ export default class Konsumen extends Component {
                           <ControlLabel>Handphone Konsumen</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataKonsumen.handphone }
+                            value={ this.state.newDataKonsumen.no_handphone }
                             onChange={ this.handleHandphoneChange }
                             placeholder='Handphone Konsumen'
                           />
@@ -377,16 +452,14 @@ export default class Konsumen extends Component {
                           <ControlLabel>Salesman</ControlLabel>
                           <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleSalesmanChange } value={ this.state.newDataKonsumen.salesman }>
                             <option value='0'>--Pilih Salesman--</option>
-                            <option value='1'>Salesman 1</option>
-                            <option value='2'>Salesman 2</option>
-                            <option value='3'>Salesman 3</option>
-                            <option value='4'>Salesman 4</option>
-                            <option value='5'>Salesman 5</option>
+                            {
+                              listSalesman.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                            }
                           </FormControl>
                         </FormGroup>
                         <FormGroup>
                           <HelpBlock>{null}</HelpBlock>
-                          <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Tambah Konsumen</Button>
+                          <Button type='submit' block bsStyle='primary' onClick={ this.handleAddKonsumen }>Tambah Konsumen</Button>
                         </FormGroup>
                       </Form>
                     </Panel>
@@ -394,7 +467,7 @@ export default class Konsumen extends Component {
                       <h4>Daftar Konsumen</h4>
                       <h6><em>Klik pada baris tabel untuk merubah / menghapus entri</em></h6>
                       <ReactTable
-                        data={ dataKonsumen }
+                        data={ konsumen.get('data') }
                         columns={ columns }
                         noDataText='No Data Available'
                         filterable
