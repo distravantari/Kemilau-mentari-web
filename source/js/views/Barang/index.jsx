@@ -98,7 +98,7 @@ export default class Barang extends Component {
       dispatch(getBarang());
       this.setState({ showModal: false });
     }
-    if (utilitas.get('data') && (listMerek.length === 0 || listKategori.length === 0 || listSatuan.length === 0)) {
+    if (prevProps.utilitas.get('data') !== utilitas.get('data')) {
       const merek = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'MEREK');
       const kategori = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'KATEGORI');
       const satuan = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'SATUAN');
