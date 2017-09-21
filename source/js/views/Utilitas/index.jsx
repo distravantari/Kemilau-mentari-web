@@ -1,16 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock, Nav, NavItem } from 'react-bootstrap';
 
 import Menu from 'components/Global/Menu';
+import Loading from 'components/Global/Loading';
+
+import { getUtilitas, addUtilitas, editUtilitas, deleteUtilitas } from 'actions/utilitas';
+import { getTipeUtilitas, addTipeUtilitas, editTipeUtilitas, deleteTipeUtilitas } from 'actions/tipeUtilitas';
 
 // react table
 import ReactTable from 'react-table';
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
 
 
 import data from '../data.json';
+@connect(state => ({
+  tipeUtilitas: state.tipeUtilitas.get('tipeUtilitas'),
+  tipeError: state.tipeUtilitas.get('error'),
+  tipeLoading: state.tipeUtilitas.get('loading'),
+  tipeShouldUpdate: state.tipeUtilitas.get('shouldUpdate'),
 
+  utilitas: state.utilitas.get('utilitas'),
+  utilitasError: state.utilitas.get('error'),
+  utilitasLoading: state.utilitas.get('loading'),
+  utilitasShouldUpdate: state.utilitas.get('shouldUpdate'),
+}))
 export default class Utilitas extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -50,6 +65,78 @@ export default class Utilitas extends Component {
 
     this.handleBiayaChange = this.handleBiayaChange.bind(this);
     this.handleIsolatedBiayaChange = this.handleIsolatedBiayaChange.bind(this);
+
+    this.handleAddUtilitas = this.handleAddUtilitas.bind(this);
+    this.handleEditUtilitas = this.handleEditUtilitas.bind(this);
+    this.handleDeleteUtilitas = this.handleDeleteUtilitas.bind(this);
+
+    this.handleAddTipeUtilitas = this.handleAddTipeUtilitas.bind(this);
+    this.handleEditTipeUtilitas = this.handleEditTipeUtilitas.bind(this);
+    this.handleDeleteTipeUtilitas = this.handleDeleteTipeUtilitas.bind(this);
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(getUtilitas());
+    dispatch(getTipeUtilitas());
+  }
+
+  componentDidUpdate(prevProps) {
+    const { tipeShouldUpdate, utilitasShouldUpdate, dispatch } = this.props;
+
+    if (!prevProps.utilitasShouldUpdate && utilitasShouldUpdate) {
+      dispatch(getUtilitas());
+      this.setState({ showModal: false });
+    }
+
+    if (!prevProps.tipeShouldUpdate && tipeShouldUpdate) {
+      dispatch(getTipeUtilitas());
+      this.setState({ showTipeModal: false });
+    }
+  }
+
+  handleAddUtilitas(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { newDataUtilitas } = this.state;
+    dispatch(addUtilitas(newDataUtilitas));
+  }
+
+  handleEditUtilitas(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { isolatedDataUtilitas } = this.state;
+    console.log(isolatedDataUtilitas);
+
+    dispatch(editUtilitas(isolatedDataUtilitas.id, isolatedDataUtilitas));
+  }
+
+  handleDeleteUtilitas(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { isolatedDataUtilitas } = this.state;
+    dispatch(deleteUtilitas(isolatedDataUtilitas.id));
+  }
+
+  handleAddTipeUtilitas(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { newDataTipeUtilitas } = this.state;
+    dispatch(addTipeUtilitas(newDataTipeUtilitas));
+  }
+
+  handleEditTipeUtilitas(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { isolatedDataTipeUtilitas } = this.state;
+    dispatch(editTipeUtilitas(isolatedDataTipeUtilitas.id, isolatedDataTipeUtilitas));
+  }
+
+  handleDeleteTipeUtilitas(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { isolatedDataTipeUtilitas } = this.state;
+    dispatch(deleteTipeUtilitas(isolatedDataTipeUtilitas.id));
   }
 
   handleNamaChange(e) {
@@ -69,14 +156,14 @@ export default class Utilitas extends Component {
   handleNamaTipeChange(e) {
     this.setState({ newDataTipeUtilitas: {
       ...this.state.newDataTipeUtilitas,
-      nama_tipe: e.target.value,
+      nama: e.target.value,
     } });
   }
 
   handleIsolatedNamaTipeChange(e) {
     this.setState({ isolatedDataTipeUtilitas: {
       ...this.state.isolatedDataTipeUtilitas,
-      nama_tipe: e.target.value,
+      nama: e.target.value,
     } });
   }
 
@@ -133,9 +220,14 @@ export default class Utilitas extends Component {
   }
 
   handleShowModal(e, rowInfo) {
-    const { dataUtilitas } = this.state;
-    const isolatedDataUtilitas = dataUtilitas.filter((item) =>
+    const { utilitas } = this.props;
+    const temp = utilitas.get('data').filter((item) =>
       item === rowInfo.original)[0];
+    const isolatedDataUtilitas = {
+      id: temp.id,
+      nama: temp.nama,
+      tipe: temp.tipe.id,
+    };
 
     this.setState({ isolatedDataUtilitas, showModal: true });
   }
@@ -145,8 +237,8 @@ export default class Utilitas extends Component {
   }
 
   handleShowTipeModal(e, rowInfo) {
-    const { dataTipeUtilitas } = this.state;
-    const isolatedDataTipeUtilitas = dataTipeUtilitas.filter((item) =>
+    const { tipeUtilitas } = this.props;
+    const isolatedDataTipeUtilitas = tipeUtilitas.get('data').filter((item) =>
       item === rowInfo.original)[0];
 
     this.setState({ isolatedDataTipeUtilitas, showTipeModal: true });
@@ -162,7 +254,7 @@ export default class Utilitas extends Component {
 
   render() {
     const { dataUtilitas, dataTipeUtilitas, activeForm } = this.state;
-    const { history } = this.props;
+    const { history, utilitas, tipeUtilitas, tipeLoading, utilitasLoading } = this.props;
     const columns = [
       {
         Header: 'Nama Utilitas',
@@ -172,7 +264,7 @@ export default class Utilitas extends Component {
       },
       {
         Header: 'Tipe Utilitas',
-        accessor: 'tipe',
+        accessor: 'tipe.nama',
         filterable: false,
       },
     ];
@@ -180,12 +272,19 @@ export default class Utilitas extends Component {
     const tipeColumns = [
       {
         Header: 'Nama Tipe',
-        accessor: 'nama_tipe',
+        accessor: 'nama',
         filterable: false,
       },
     ];
     return (
       <div>
+        {
+          (tipeLoading || utilitasLoading) ? (
+            <Loading />
+          ) : (
+              null
+            )
+        }
         <Menu history={ history } />
         <section className='product-section'>
           <Modal show={ this.state.showModal } onHide={ this.handleCloseModal } dialogClassName='edit-modal'>
@@ -230,8 +329,8 @@ export default class Utilitas extends Component {
                 </FormGroup>
                 <FormGroup>
                   <HelpBlock>{null}</HelpBlock>
-                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Edit Utilitas</Button>
-                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteProduct } >Delete Utilitas</Button>
+                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditUtilitas }>Edit Utilitas</Button>
+                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteUtilitas } >Delete Utilitas</Button>
                 </FormGroup>
               </Form>
             </Modal.Body>
@@ -249,7 +348,7 @@ export default class Utilitas extends Component {
                   <ControlLabel>Nama Tipe Utilitas</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataTipeUtilitas.nama_tipe }
+                    value={ this.state.isolatedDataTipeUtilitas.nama }
                     onChange={ this.handleIsolatedNamaTipeChange }
                     placeholder='Nama Utilitas'
                   />
@@ -257,8 +356,8 @@ export default class Utilitas extends Component {
                 </FormGroup>
                 <FormGroup>
                   <HelpBlock>{null}</HelpBlock>
-                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Edit Tipe Utilitas</Button>
-                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteProduct } >Delete Tipe Utilitas</Button>
+                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditTipeUtilitas }>Edit Tipe Utilitas</Button>
+                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteTipeUtilitas } >Delete Tipe Utilitas</Button>
                 </FormGroup>
               </Form>
             </Modal.Body>
@@ -319,7 +418,7 @@ export default class Utilitas extends Component {
                         </FormGroup>
                         <FormGroup>
                           <HelpBlock>{null}</HelpBlock>
-                          <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Tambah Utilitas</Button>
+                          <Button type='submit' block bsStyle='primary' onClick={ this.handleAddUtilitas }>Tambah Utilitas</Button>
                         </FormGroup>
                       </Form>
                     </Panel>
@@ -327,7 +426,7 @@ export default class Utilitas extends Component {
                       <h4>Daftar Utilitas</h4>
                       <h6><em>Klik pada baris tabel untuk merubah / menghapus entri</em></h6>
                       <ReactTable
-                        data={ dataUtilitas }
+                        data={ utilitas.get('data') }
                         columns={ columns }
                         noDataText='No Data Available'
                         filterable
@@ -353,7 +452,7 @@ export default class Utilitas extends Component {
                           <ControlLabel>Nama Tipe Utilitas</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataTipeUtilitas.nama_tipe }
+                            value={ this.state.newDataTipeUtilitas.nama }
                             onChange={ this.handleNamaTipeChange }
                             placeholder='Nama Tipe Utilitas'
                           />
@@ -361,7 +460,7 @@ export default class Utilitas extends Component {
                         </FormGroup>
                         <FormGroup>
                           <HelpBlock>{null}</HelpBlock>
-                          <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Tambah Tipe Utilitas</Button>
+                          <Button type='submit' block bsStyle='primary' onClick={ this.handleAddTipeUtilitas }>Tambah Tipe Utilitas</Button>
                         </FormGroup>
                       </Form>
                     </Panel>
@@ -369,7 +468,7 @@ export default class Utilitas extends Component {
                       <h4>Daftar Tipe Utilitas</h4>
                       <h6><em>Klik pada baris tabel untuk merubah / menghapus entri</em></h6>
                       <ReactTable
-                        data={ dataTipeUtilitas }
+                        data={ tipeUtilitas.get('data') }
                         columns={ tipeColumns }
                         noDataText='No Data Available'
                         filterable
