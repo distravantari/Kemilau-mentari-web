@@ -13,6 +13,7 @@ const devServer = require('./webpack/dev-server').devServer;
 
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+let FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 
 // Default client app entry file
@@ -30,6 +31,7 @@ plugins.push(
       return context && context.indexOf('node_modules') >= 0;
     },
   }),
+  new FaviconsWebpackPlugin('../assets/img/favicon.png'),
   // Builds index.html from template
   new HtmlWebpackPlugin({
     template: path.join(paths.source, 'index.html'),
