@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
 
 import Menu from 'components/Global/Menu';
 
+import { getPegawai, addPegawai, editPegawai, deletePegawai } from 'actions/pegawai';
+import { getUtilitas } from 'actions/utilitas';
+
 // react table
 import ReactTable from 'react-table';
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
 
 
 import data from '../data.json';
 
+@connect(state => ({
+  pegawai: state.pegawai.get('pegawai'),
+  error: state.pegawai.get('error'),
+  loading: state.pegawai.get('loading'),
+  shouldUpdate: state.pegawai.get('shouldUpdate'),
+
+  utilitas: state.utilitas.get('utilitas'),
+  utilitasError: state.utilitas.get('error'),
+  utilitasLoading: state.utilitas.get('loading'),
+}))
 export default class Pegawai extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -24,6 +38,7 @@ export default class Pegawai extends Component {
       newDataPegawai: {},
       isolatedDataPegawai: {},
       showModal: false,
+      listJabatan: [],
     };
 
     this.handleShowModal = this.handleShowModal.bind(this);
@@ -44,6 +59,51 @@ export default class Pegawai extends Component {
 
     this.handleKomisiChange = this.handleKomisiChange.bind(this);
     this.handleIsolatedKomisiChange = this.handleIsolatedKomisiChange.bind(this);
+
+    this.handleAddPegawai = this.handleAddPegawai.bind(this);
+    this.handleEditPegawai = this.handleEditPegawai.bind(this);
+    this.handleDeletePegawai = this.handleDeletePegawai.bind(this);
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(getPegawai());
+    dispatch(getUtilitas());
+  }
+
+  componentDidUpdate(prevProps) {
+    const { dispatch, utilitas, shouldUpdate } = this.props;
+    if (prevProps.utilitas.get('data') !== utilitas.get('data')) {
+      const jabatan = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'JABATAN');
+      this.setState({ listJabatan: jabatan });
+    }
+
+    if (!prevProps.shouldUpdate && shouldUpdate) {
+      dispatch(getPegawai());
+      dispatch(getUtilitas());
+      this.setState({ showModal: false });
+    }
+  }
+
+  handleAddPegawai(e) {
+    const { dispatch } = this.props;
+    const { newDataPegawai } = this.state;
+    e.preventDefault();
+    dispatch(addPegawai(newDataPegawai));
+  }
+
+  handleEditPegawai(e) {
+    const { dispatch } = this.props;
+    const { isolatedDataPegawai } = this.state;
+    e.preventDefault();
+    dispatch(editPegawai(isolatedDataPegawai.id, isolatedDataPegawai));
+  }
+
+  handleDeletePegawai(e) {
+    const { dispatch } = this.props;
+    const { isolatedDataPegawai } = this.state;
+    e.preventDefault();
+    dispatch(deletePegawai(isolatedDataPegawai.id));
   }
 
   handleKotaChange(e) {
@@ -63,14 +123,14 @@ export default class Pegawai extends Component {
   handleNamaChange(e) {
     this.setState({ newDataPegawai: {
       ...this.state.newDataPegawai,
-      nama_pegawai: e.target.value,
+      nama: e.target.value,
     } });
   }
 
   handleIsolatedNamaChange(e) {
     this.setState({ isolatedDataPegawai: {
       ...this.state.isolatedDataPegawai,
-      nama_pegawai: e.target.value,
+      nama: e.target.value,
     } });
   }
 
@@ -91,14 +151,14 @@ export default class Pegawai extends Component {
   handleHandphoneChange(e) {
     this.setState({ newDataPegawai: {
       ...this.state.newDataPegawai,
-      handphone: e.target.value,
+      no_handphone: e.target.value,
     } });
   }
 
   handleIsolatedHandphoneChange(e) {
     this.setState({ isolatedDataPegawai: {
       ...this.state.isolatedDataPegawai,
-      handphone: e.target.value,
+      no_handphone: e.target.value,
     } });
   }
 
@@ -140,7 +200,15 @@ export default class Pegawai extends Component {
 
   handleShowModal(e, rowInfo) {
     const { dataPegawai } = this.state;
-    const isolatedDataPegawai = dataPegawai.filter((item) => item === rowInfo.original)[0];
+    const { pegawai } = this.props;
+    const temp = pegawai.get('data').filter((item) => item === rowInfo.original)[0];
+    const isolatedDataPegawai = {
+      id: temp.id,
+      jabatan: temp.jabatan.id,
+      nama: temp.nama,
+      alamat: temp.alamat,
+      no_handphone: temp.no_handphone,
+    };
     this.setState({ isolatedDataPegawai, showModal: true });
   }
 
@@ -149,12 +217,12 @@ export default class Pegawai extends Component {
   }
 
   render() {
-    const { dataPegawai } = this.state;
-    const { history } = this.props;
+    const { dataPegawai, listJabatan } = this.state;
+    const { history, pegawai } = this.props;
     const columns = [
       {
         Header: 'Nama Pegawai',
-        accessor: 'nama_pegawai',
+        accessor: 'nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
         filterable: false,
       },
@@ -165,12 +233,12 @@ export default class Pegawai extends Component {
       },
       {
         Header: 'Handphone',
-        accessor: 'handphone',
+        accessor: 'no_handphone',
         filterable: false,
       },
       {
         Header: 'Jabatan',
-        accessor: 'jabatan',
+        accessor: 'jabatan.nama',
       },
       {
         Header: '% Komisi',
@@ -191,7 +259,7 @@ export default class Pegawai extends Component {
                   <ControlLabel>Nama Pegawai</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataPegawai.nama_pegawai }
+                    value={ this.state.isolatedDataPegawai.nama }
                     onChange={ this.handleIsolatedNamaChange }
                     placeholder='Nama Pegawai'
                   />
@@ -211,7 +279,7 @@ export default class Pegawai extends Component {
                   <ControlLabel>Handphone Pegawai</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataPegawai.handphone }
+                    value={ this.state.isolatedDataPegawai.no_handphone }
                     onChange={ this.handleIsolatedHandphoneChange }
                     placeholder='Handphone Pegawai'
                   />
@@ -221,11 +289,9 @@ export default class Pegawai extends Component {
                   <ControlLabel>Jabatan</ControlLabel>
                   <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleIsolatedJabatanChange } value={ this.state.isolatedDataPegawai.jabatan }>
                     <option value='0'>--Pilih Jabatan--</option>
-                    <option value='1'>Jabatan 1</option>
-                    <option value='2'>Jabatan 2</option>
-                    <option value='3'>Jabatan 3</option>
-                    <option value='4'>Jabatan 4</option>
-                    <option value='5'>Jabatan 5</option>
+                    {
+                      listJabatan.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                    }
                   </FormControl>
                 </FormGroup>
                 <FormGroup>
@@ -234,14 +300,14 @@ export default class Pegawai extends Component {
                     type='text'
                     value={ this.state.isolatedDataPegawai.komisi }
                     onChange={ this.handleIsolatedKomisiChange }
-                    placeholder='Prosentase Komisi'
+                    placeholder='% Komisi'
                   />
                   <FormControl.Feedback />
                 </FormGroup>
                 <FormGroup>
                   <HelpBlock>{null}</HelpBlock>
-                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Edit Pegawai</Button>
-                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteProduct } >Delete Pegawai</Button>
+                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditPegawai }>Edit Pegawai</Button>
+                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeletePegawai } >Delete Pegawai</Button>
                 </FormGroup>
               </Form>
             </Modal.Body>
@@ -266,7 +332,7 @@ export default class Pegawai extends Component {
                           <ControlLabel>Nama Pegawai</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataPegawai.nama_pegawai }
+                            value={ this.state.newDataPegawai.nama }
                             onChange={ this.handleNamaChange }
                             placeholder='Nama Pegawai'
                           />
@@ -286,7 +352,7 @@ export default class Pegawai extends Component {
                           <ControlLabel>Handphone Pegawai</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataPegawai.handphone }
+                            value={ this.state.newDataPegawai.no_handphone }
                             onChange={ this.handleHandphoneChange }
                             placeholder='Handphone Pegawai'
                           />
@@ -296,26 +362,24 @@ export default class Pegawai extends Component {
                           <ControlLabel>Jabatan</ControlLabel>
                           <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleJabatanChange } value={ this.state.newDataPegawai.jabatan }>
                             <option value='0'>--Pilih Jabatan--</option>
-                            <option value='1'>Jabatan 1</option>
-                            <option value='2'>Jabatan 2</option>
-                            <option value='3'>Jabatan 3</option>
-                            <option value='4'>Jabatan 4</option>
-                            <option value='5'>Jabatan 5</option>
+                            {
+                              listJabatan.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                            }
                           </FormControl>
                         </FormGroup>
                         <FormGroup>
-                          <ControlLabel>Prosentase Komisi</ControlLabel>
+                          <ControlLabel>% Komisi</ControlLabel>
                           <FormControl
                             type='text'
                             value={ this.state.newDataPegawai.komisi }
                             onChange={ this.handleKomisiChange }
-                            placeholder='Prosentase Komisi'
+                            placeholder='% Komisi'
                           />
                           <FormControl.Feedback />
                         </FormGroup>
                         <FormGroup>
                           <HelpBlock>{null}</HelpBlock>
-                          <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Tambah Pegawai</Button>
+                          <Button type='submit' block bsStyle='primary' onClick={ this.handleAddPegawai }>Tambah Pegawai</Button>
                         </FormGroup>
                       </Form>
                     </Panel>
@@ -323,7 +387,7 @@ export default class Pegawai extends Component {
                       <h4>Daftar Pegawai</h4>
                       <h6><em>Klik pada baris tabel untuk merubah / menghapus entri</em></h6>
                       <ReactTable
-                        data={ dataPegawai }
+                        data={ pegawai.get('data') }
                         columns={ columns }
                         noDataText='No Data Available'
                         filterable
