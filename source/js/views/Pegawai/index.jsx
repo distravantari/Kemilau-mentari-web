@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
 
 import Menu from 'components/Global/Menu';
+import Loading from 'components/Global/Loading';
 
 import { getPegawai, addPegawai, editPegawai, deletePegawai } from 'actions/pegawai';
 import { getUtilitas } from 'actions/utilitas';
@@ -218,7 +219,7 @@ export default class Pegawai extends Component {
 
   render() {
     const { dataPegawai, listJabatan } = this.state;
-    const { history, pegawai } = this.props;
+    const { history, pegawai, loading, utilitasLoading } = this.props;
     const columns = [
       {
         Header: 'Nama Pegawai',
@@ -247,6 +248,13 @@ export default class Pegawai extends Component {
     ];
     return (
       <div>
+        {
+          (loading || utilitasLoading) ? (
+            <Loading />
+          ) : (
+              null
+            )
+        }
         <Menu history={ history } />
         <section className='product-section'>
           <Modal show={ this.state.showModal } onHide={ this.handleCloseModal } dialogClassName='edit-modal'>

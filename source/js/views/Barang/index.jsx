@@ -8,6 +8,7 @@ import { getUtilitas } from 'actions/utilitas';
 import { getSupplier } from 'actions/supplier';
 
 import Menu from 'components/Global/Menu';
+import Loading from 'components/Global/Loading';
 
 // react table
 import ReactTable from 'react-table';
@@ -263,7 +264,7 @@ export default class Barang extends Component {
   }
 
   render() {
-    const { history, barang, supplier } = this.props;
+    const { history, barang, supplier, loading, supplierLoading, utilitasLoading } = this.props;
     const { listKategori, listMerek, listSatuan } = this.state;
     const columns = [
       {
@@ -297,6 +298,13 @@ export default class Barang extends Component {
     ];
     return (
       <div>
+        {
+          (loading || supplierLoading || utilitasLoading) ? (
+            <Loading />
+          ) : (
+            null
+          )
+        }
         <Menu history={ history } />
         <section className='product-section'>
           <Modal show={ this.state.showModal } onHide={ this.handleCloseModal } dialogClassName='edit-modal'>

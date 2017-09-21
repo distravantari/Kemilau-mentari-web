@@ -8,6 +8,7 @@ import { getUtilitas } from 'actions/utilitas';
 import { getPegawai } from 'actions/pegawai';
 
 import Menu from 'components/Global/Menu';
+import Loading from 'components/Global/Loading';
 
 // react table
 import ReactTable from 'react-table';
@@ -248,7 +249,7 @@ export default class Konsumen extends Component {
   }
 
   render() {
-    const { history, konsumen } = this.props;
+    const { history, konsumen, loading, pegawaiLoading, utilitasLoading } = this.props;
     const { listKota, listSalesman } = this.state;
     const columns = [
       {
@@ -289,6 +290,13 @@ export default class Konsumen extends Component {
     ];
     return (
       <div>
+        {
+          (loading || pegawaiLoading || utilitasLoading) ? (
+            <Loading />
+          ) : (
+              null
+            )
+        }
         <Menu history={ history } />
         <section className='product-section'>
           <Modal show={ this.state.showModal } onHide={ this.handleCloseModal } dialogClassName='edit-modal'>

@@ -6,6 +6,7 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 import { getSupplier, addSupplier, editSupplier, deleteSupplier } from 'actions/supplier';
 
 import Menu from 'components/Global/Menu';
+import Loading from 'components/Global/Loading';
 
 // react table
 import ReactTable from 'react-table';
@@ -186,7 +187,7 @@ export default class Supplier extends Component {
   }
 
   render() {
-    const { history, supplier } = this.props;
+    const { history, supplier, loading, utilitasLoading } = this.props;
     const columns = [
       {
         Header: 'Nama Supplier',
@@ -212,6 +213,13 @@ export default class Supplier extends Component {
     ];
     return (
       <div>
+        {
+          (loading || utilitasLoading) ? (
+            <Loading />
+          ) : (
+              null
+            )
+        }
         <Menu history={ history } />
         <section className='product-section'>
           <Modal show={ this.state.showModal } onHide={ this.handleCloseModal } dialogClassName='edit-modal'>
