@@ -1,35 +1,61 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
+
+import { getBarang, addBarang, editBarang, deleteBarang } from 'actions/barang';
+import { getUtilitas } from 'actions/utilitas';
+import { getSupplier } from 'actions/supplier';
 
 import Menu from 'components/Global/Menu';
 
 // react table
 import ReactTable from 'react-table';
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
 
-import data from '../data.json';
+@connect(state => ({
+  barang: state.barang.get('barang'),
+  error: state.barang.get('error'),
+  loading: state.barang.get('loading'),
+  shouldUpdate: state.barang.get('shouldUpdate'),
+
+  utilitas: state.utilitas.get('utilitas'),
+  utilitasError: state.utilitas.get('error'),
+  utilitasLoading: state.utilitas.get('loading'),
+
+  supplier: state.supplier.get('supplier'),
+  supplierError: state.supplier.get('error'),
+  supplierLoading: state.supplier.get('loading'),
+}))
 
 export default class Barang extends Component {
   static propTypes = {
     history: PropTypes.object,
+    dispatch: PropTypes.func,
+    shouldUpdate: PropTypes.bool,
+    loading: PropTypes.bool,
+    error: PropTypes.object,
+    barang: PropTypes.object,
+    utilitas: PropTypes.object,
   }
 
   constructor() {
     super();
 
     this.state = {
-      dataBarang: data.barang.data,
       newDataBarang: {},
       isolatedDataBarang: {},
       showModal: false,
+      listMerek: [],
+      listKategori: [],
+      listSatuan: [],
     };
 
     this.handleShowModal = this.handleShowModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
 
-    this.handleKatagoriChange = this.handleKatagoriChange.bind(this);
-    this.handleIsolatedKatagoriChange = this.handleIsolatedKatagoriChange.bind(this);
+    this.handleKategoriChange = this.handleKategoriChange.bind(this);
+    this.handleIsolatedKategoriChange = this.handleIsolatedKategoriChange.bind(this);
 
     this.handleMerekChange = this.handleMerekChange.bind(this);
     this.handleIsolatedMerekChange = this.handleIsolatedMerekChange.bind(this);
@@ -51,19 +77,73 @@ export default class Barang extends Component {
 
     this.handleSupplierChange = this.handleSupplierChange.bind(this);
     this.handleIsolatedSupplierChange = this.handleIsolatedSupplierChange.bind(this);
+
+    this.handleAddBarang = this.handleAddBarang.bind(this);
+    this.handleEditBarang = this.handleEditBarang.bind(this);
+    this.handleDeleteBarang = this.handleDeleteBarang.bind(this);
   }
 
-  handleKatagoriChange(e) {
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(getBarang());
+    dispatch(getUtilitas());
+    dispatch(getSupplier());
+  }
+
+  componentDidUpdate(prevProps) {
+    const { shouldUpdate, dispatch, utilitas } = this.props;
+    const { listMerek, listKategori, listSatuan } = this.state;
+
+    if (!prevProps.shouldUpdate && shouldUpdate) {
+      dispatch(getBarang());
+      this.setState({ showModal: false });
+    }
+    if (prevProps.utilitas.get('data') !== utilitas.get('data')) {
+      const merek = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'MEREK');
+      const kategori = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'KATEGORI');
+      const satuan = utilitas.get('data').filter(item => item.tipe.nama.toUpperCase() === 'SATUAN');
+      this.setState({ listMerek: merek, listKategori: kategori, listSatuan: satuan });
+    }
+  }
+
+  handleAddBarang(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { newDataBarang } = this.state;
+
+    console.log(newDataBarang);
+    dispatch(addBarang(newDataBarang));
+  }
+
+  handleEditBarang(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { isolatedDataBarang } = this.state;
+
+    console.log(isolatedDataBarang);
+    dispatch(editBarang(isolatedDataBarang.id, isolatedDataBarang));
+  }
+
+  handleDeleteBarang(e) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const { isolatedDataBarang } = this.state;
+
+    console.log(isolatedDataBarang);
+    dispatch(deleteBarang(isolatedDataBarang.id));
+  }
+
+  handleKategoriChange(e) {
     this.setState({ newDataBarang: {
       ...this.state.newDataBarang,
-      katagori: e.target.value,
+      kategori: e.target.value,
     } });
   }
 
-  handleIsolatedKatagoriChange(e) {
+  handleIsolatedKategoriChange(e) {
     this.setState({ isolatedDataBarang: {
       ...this.state.isolatedDataBarang,
-      katagori: e.target.value,
+      kategori: e.target.value,
     } });
   }
 
@@ -144,13 +224,13 @@ export default class Barang extends Component {
   handleSupplierChange(e) {
     this.setState({ newDataBarang: {
       ...this.state.newDataBarang,
-      supplier: e.target.value } });
+      supplier_barang: e.target.value } });
   }
 
   handleIsolatedSupplierChange(e) {
     this.setState({ isolatedDataBarang: {
       ...this.state.isolatedDataBarang,
-      supplier: e.target.value } });
+      supplier_barang: e.target.value } });
   }
 
   textFilter(filter, row) {
@@ -162,9 +242,20 @@ export default class Barang extends Component {
   }
 
   handleShowModal(e, rowInfo) {
-    const { dataBarang } = this.state;
-    const isolatedDataBarang = dataBarang.filter((item) => item === rowInfo.original)[0];
-    this.setState({ isolatedDataBarang, showModal: true });
+    const { barang } = this.props;
+    const isolatedDataBarang = barang.get('data').filter((item) => item === rowInfo.original)[0];
+    const temp = {
+      harga_beli: isolatedDataBarang.harga_beli,
+      harga_jual: isolatedDataBarang.harga_jual,
+      id: isolatedDataBarang.id,
+      kategori: isolatedDataBarang.kategori.id,
+      merek: isolatedDataBarang.merek.id,
+      nama_barang: isolatedDataBarang.nama_barang,
+      satuan: isolatedDataBarang.satuan.id,
+      supplier_barang: isolatedDataBarang.supplier_barang.id,
+      tipe: isolatedDataBarang.tipe,
+    };
+    this.setState({ isolatedDataBarang: temp, showModal: true });
   }
 
   handleCloseModal() {
@@ -172,17 +263,17 @@ export default class Barang extends Component {
   }
 
   render() {
-    const { dataBarang } = this.state;
-    const { history } = this.props;
+    const { history, barang, supplier } = this.props;
+    const { listKategori, listMerek, listSatuan } = this.state;
     const columns = [
       {
         Header: 'Kategori',
-        accessor: 'katagori',
+        accessor: 'kategori.nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
       },
       {
         Header: 'Merek',
-        accessor: 'merek',
+        accessor: 'merek.nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
       },
       {
@@ -200,7 +291,7 @@ export default class Barang extends Component {
       },
       {
         Header: 'Nama Supplier',
-        accessor: 'nama_supplier',
+        accessor: 'supplier_barang.nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
       },
     ];
@@ -215,32 +306,40 @@ export default class Barang extends Component {
             <Modal.Body>
               <Form>
                 <FormGroup>
-                  <ControlLabel>Katagori</ControlLabel>
-                  <FormControl componentClass='select' placeholder='Katagori' onChange={ this.handleIsolatedKatagoriChange } value={ this.state.isolatedDataBarang.katagori }>
-                    <option value='0'>--Pilih Katagori--</option>
-                    <option value='1'>Katagori 1</option>
-                    <option value='2'>Katagori 2</option>
-                    <option value='3'>Katagori 3</option>
-                    <option value='4'>Katagori 4</option>
-                    <option value='5'>Katagori 5</option>
-                  </FormControl>
+                  <ControlLabel>Kategori</ControlLabel>
+                  {
+                    (this.state.isolatedDataBarang.kategori) ? (
+                      <FormControl componentClass='select' placeholder='Kategori' onChange={ this.handleIsolatedKategoriChange } value={ this.state.isolatedDataBarang.kategori }>
+                        <option value='0'>--Pilih Kategori--</option>
+                        {
+                          listKategori.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                        }
+                      </FormControl>
+                    ) : (
+                      null
+                    )
+                  }
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>Merek</ControlLabel>
-                  <FormControl componentClass='select' placeholder='Merek' onChange={ this.handleIsolatedMerekChange } value={ this.state.isolatedDataBarang.merk }>
-                    <option value='0'>--Pilih Merek--</option>
-                    <option value='1'>Merek 1</option>
-                    <option value='2'>Merek 2</option>
-                    <option value='3'>Merek 3</option>
-                    <option value='4'>Merek 4</option>
-                    <option value='5'>Merek 5</option>
-                  </FormControl>
+                  {
+                    (this.state.isolatedDataBarang.merek) ? (
+                      <FormControl componentClass='select' placeholder='Merek' onChange={ this.handleIsolatedMerekChange } value={ this.state.isolatedDataBarang.merek }>
+                        <option value='0'>--Pilih Merek--</option>
+                        {
+                          listMerek.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                        }
+                      </FormControl>
+                    ) : (
+                      null
+                    )
+                  }
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>Tipe Barang</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataBarang.tipe_barang }
+                    value={ this.state.isolatedDataBarang.tipe }
                     onChange={ this.handleIsolatedTipeChange }
                     placeholder='Tipe Barang'
                   />
@@ -258,14 +357,18 @@ export default class Barang extends Component {
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>Satuan</ControlLabel>
-                  <FormControl componentClass='select' placeholder='Satuan' onChange={ this.handleIsolatedSatuanChange } value={ this.state.isolatedDataBarang.satuan }>
-                    <option value='0'>--Pilih Satuan--</option>
-                    <option value='1'>Satuan 1</option>
-                    <option value='2'>Satuan 2</option>
-                    <option value='3'>Satuan 3</option>
-                    <option value='4'>Satuan 4</option>
-                    <option value='5'>Satuan 5</option>
-                  </FormControl>
+                  {
+                    (this.state.isolatedDataBarang.satuan) ? (
+                      <FormControl componentClass='select' placeholder='Satuan' onChange={ this.handleIsolatedSatuanChange } value={ this.state.isolatedDataBarang.satuan }>
+                        <option value='0'>--Pilih Satuan--</option>
+                        {
+                          listSatuan.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                        }
+                      </FormControl>
+                    ) : (
+                      null
+                    )
+                  }
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>Harga Beli</ControlLabel>
@@ -291,19 +394,27 @@ export default class Barang extends Component {
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>Supplier Barang</ControlLabel>
-                  <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleIsolatedSupplierChange } value={ this.state.isolatedDataBarang.supplier }>
-                    <option value='0'>--Pilih Supplier--</option>
-                    <option value='1'>Supplier 1</option>
-                    <option value='2'>Supplier 2</option>
-                    <option value='3'>Supplier 3</option>
-                    <option value='4'>Supplier 4</option>
-                    <option value='5'>Supplier 5</option>
-                  </FormControl>
+                  {
+                    (this.state.isolatedDataBarang.supplier_barang) ? (
+                      <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleIsolatedSupplierChange } value={ this.state.isolatedDataBarang.supplier_barang }>
+                        <option value='0'>--Pilih Supplier--</option>
+                        {
+                          (supplier.get('data')) ? (
+                            supplier.get('data').map((item) => { return (<option key={ item.id } value={ item.id }>{item.nama}</option>); })
+                          ) : (
+                              null
+                            )
+                        }
+                      </FormControl>
+                    ) : (
+                      null
+                    )
+                  }
                 </FormGroup>
                 <FormGroup>
                   <HelpBlock>{null}</HelpBlock>
-                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Edit Product</Button>
-                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteProduct } >Delete Product</Button>
+                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditBarang }>Edit Barang</Button>
+                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteBarang } >Delete Barang</Button>
                 </FormGroup>
               </Form>
             </Modal.Body>
@@ -323,34 +434,30 @@ export default class Barang extends Component {
                   <Col xs={ 12 }>
                     <Panel>
                       <h4>Tambah Barang</h4>
-                      <Form>
+                      <Form onSubmit={ this.handleAddBarang }>
                         <FormGroup>
-                          <ControlLabel>Katagori</ControlLabel>
-                          <FormControl componentClass='select' placeholder='Katagori' onChange={ this.handleKatagoriChange } value={ this.state.newDataBarang.katagori }>
-                            <option value='0'>--Pilih Katagori--</option>
-                            <option value='1'>Katagori 1</option>
-                            <option value='2'>Katagori 2</option>
-                            <option value='3'>Katagori 3</option>
-                            <option value='4'>Katagori 4</option>
-                            <option value='5'>Katagori 5</option>
+                          <ControlLabel>Kategori</ControlLabel>
+                          <FormControl componentClass='select' placeholder='Kategori' onChange={ this.handleKategoriChange } value={ this.state.newDataBarang.kategori }>
+                            <option value='0'>--Pilih Kategori--</option>
+                            {
+                              listKategori.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                            }
                           </FormControl>
                         </FormGroup>
                         <FormGroup>
                           <ControlLabel>Merek</ControlLabel>
-                          <FormControl componentClass='select' placeholder='Merek' onChange={ this.handleMerekChange } value={ this.state.newDataBarang.merk }>
+                          <FormControl componentClass='select' placeholder='Merek' onChange={ this.handleMerekChange } value={ this.state.newDataBarang.merek }>
                             <option value='0'>--Pilih Merek--</option>
-                            <option value='1'>Merek 1</option>
-                            <option value='2'>Merek 2</option>
-                            <option value='3'>Merek 3</option>
-                            <option value='4'>Merek 4</option>
-                            <option value='5'>Merek 5</option>
+                            {
+                              listMerek.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                            }
                           </FormControl>
                         </FormGroup>
                         <FormGroup>
                           <ControlLabel>Tipe Barang</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataBarang.tipe_barang }
+                            value={ this.state.newDataBarang.tipe }
                             onChange={ this.handleTipeChange }
                             placeholder='Tipe Barang'
                           />
@@ -370,11 +477,9 @@ export default class Barang extends Component {
                           <ControlLabel>Satuan</ControlLabel>
                           <FormControl componentClass='select' placeholder='Satuan' onChange={ this.handleSatuanChange } value={ this.state.newDataBarang.satuan }>
                             <option value='0'>--Pilih Satuan--</option>
-                            <option value='1'>Satuan 1</option>
-                            <option value='2'>Satuan 2</option>
-                            <option value='3'>Satuan 3</option>
-                            <option value='4'>Satuan 4</option>
-                            <option value='5'>Satuan 5</option>
+                            {
+                              listSatuan.map(item => <option key={ item.id } value={ item.id }>{item.nama}</option>)
+                            }
                           </FormControl>
                         </FormGroup>
                         <FormGroup>
@@ -401,13 +506,15 @@ export default class Barang extends Component {
                         </FormGroup>
                         <FormGroup>
                           <ControlLabel>Supplier Barang</ControlLabel>
-                          <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleSupplierChange } value={ this.state.newDataBarang.supplier }>
+                          <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleSupplierChange } value={ this.state.newDataBarang.supplier_barang }>
                             <option value='0'>--Pilih Supplier--</option>
-                            <option value='1'>Supplier 1</option>
-                            <option value='2'>Supplier 2</option>
-                            <option value='3'>Supplier 3</option>
-                            <option value='4'>Supplier 4</option>
-                            <option value='5'>Supplier 5</option>
+                            {
+                              (supplier.get('data')) ? (
+                                supplier.get('data').map((item) => { return (<option key={ item.id } value={ item.id }>{item.nama}</option>); })
+                              ) : (
+                                null
+                              )
+                            }
                           </FormControl>
                         </FormGroup>
                         <FormGroup>
@@ -419,25 +526,31 @@ export default class Barang extends Component {
                     <Panel>
                       <h4>Daftar Barang</h4>
                       <h6><em>Klik pada baris tabel untuk merubah / menghapus entri</em></h6>
-                      <ReactTable
-                        data={ dataBarang }
-                        columns={ columns }
-                        noDataText='No Data Available'
-                        filterable
-                        defaultPageSize={ 10 }
-                        className='-striped -highlight'
-                        getTdProps={ (state, rowInfo) => {
-                          return {
-                            onClick: (e, handleOriginal) => {
-                              this.handleShowModal(e, rowInfo);
+                      {
+                        (barang.get('data')) ? (
+                          <ReactTable
+                            data={ barang.get('data') }
+                            columns={ columns }
+                            noDataText='No Data Available'
+                            filterable
+                            defaultPageSize={ 10 }
+                            className='-striped -highlight'
+                            getTdProps={ (state, rowInfo) => {
+                              return {
+                                onClick: (e, handleOriginal) => {
+                                  this.handleShowModal(e, rowInfo);
 
-                              if (handleOriginal) {
-                                handleOriginal();
-                              }
-                            },
-                          };
-                        } }
-                      />
+                                  if (handleOriginal) {
+                                    handleOriginal();
+                                  }
+                                },
+                              };
+                            } }
+                          />
+                        ) : (
+                          null
+                        )
+                      }
                     </Panel>
                   </Col>
                 </Row>
