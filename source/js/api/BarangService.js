@@ -33,7 +33,7 @@ function editBarang(id, dataBarang) {
   return fetch(`${ API_ROOT }/v1/data/barang/${ id }/`, {
     method: 'PATCH',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       ...dataBarang,
