@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Button, Modal, HelpBlock } from 'react-bootstrap';
 
+import { getSupplier, addSupplier, editSupplier, deleteSupplier } from 'actions/supplier';
+
 import Menu from 'components/Global/Menu';
+import Loading from 'components/Global/Loading';
 
 // react table
 import ReactTable from 'react-table';
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
 
 
 import data from '../data.json';
 
+@connect(state => ({
+  supplier: state.supplier.get('supplier'),
+  error: state.supplier.get('error'),
+  loading: state.supplier.get('loading'),
+  shouldUpdate: state.supplier.get('shouldUpdate'),
+
+  utilitas: state.utilitas.get('utilitas'),
+  utilitasError: state.utilitas.get('error'),
+  utilitasLoading: state.utilitas.get('loading'),
+}))
 export default class Supplier extends Component {
   static propTypes = {
     history: PropTypes.object,
@@ -20,7 +34,6 @@ export default class Supplier extends Component {
     super();
 
     this.state = {
-      dataSupplier: data.supplier.data,
       newDataSupplier: {},
       isolatedDataSupplier: {},
       showModal: false,
@@ -38,6 +51,47 @@ export default class Supplier extends Component {
 
     this.handleNoTelpChange = this.handleNoTelpChange.bind(this);
     this.handleIsolatedNoTelpChange = this.handleIsolatedNoTelpChange.bind(this);
+
+    this.handleNoHandphoneChange = this.handleNoHandphoneChange.bind(this);
+    this.handleIsolatedNoHandphoneChange = this.handleIsolatedNoHandphoneChange.bind(this);
+
+    this.handleAddSupplier = this.handleAddSupplier.bind(this);
+    this.handleEditSupplier = this.handleEditSupplier.bind(this);
+    this.handleDeleteSupplier = this.handleDeleteSupplier.bind(this);
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(getSupplier());
+  }
+
+  componentDidUpdate(prevProps) {
+    const { dispatch, shouldUpdate } = this.props;
+    if (!prevProps.shouldUpdate && shouldUpdate) {
+      dispatch(getSupplier());
+      this.setState({ showModal: false });
+    }
+  }
+
+  handleAddSupplier(e) {
+    const { dispatch } = this.props;
+    const { newDataSupplier } = this.state;
+    e.preventDefault();
+    dispatch(addSupplier(newDataSupplier));
+  }
+
+  handleEditSupplier(e) {
+    const { dispatch } = this.props;
+    const { isolatedDataSupplier } = this.state;
+    e.preventDefault();
+    dispatch(editSupplier(isolatedDataSupplier.id, isolatedDataSupplier));
+  }
+
+  handleDeleteSupplier(e) {
+    const { dispatch } = this.props;
+    const { isolatedDataSupplier } = this.state;
+    e.preventDefault();
+    dispatch(deleteSupplier(isolatedDataSupplier.id));
   }
 
   handleKotaChange(e) {
@@ -57,14 +111,14 @@ export default class Supplier extends Component {
   handleNamaChange(e) {
     this.setState({ newDataSupplier: {
       ...this.state.newDataSupplier,
-      nama_supplier: e.target.value,
+      nama: e.target.value,
     } });
   }
 
   handleIsolatedNamaChange(e) {
     this.setState({ isolatedDataSupplier: {
       ...this.state.isolatedDataSupplier,
-      nama_supplier: e.target.value,
+      nama: e.target.value,
     } });
   }
 
@@ -85,15 +139,33 @@ export default class Supplier extends Component {
   handleNoTelpChange(e) {
     this.setState({ newDataSupplier: {
       ...this.state.newDataSupplier,
-      no_telpon: e.target.value,
+      no_telp: e.target.value,
     } });
   }
 
   handleIsolatedNoTelpChange(e) {
     this.setState({ isolatedDataSupplier: {
       ...this.state.isolatedDataSupplier,
-      no_telpon: e.target.value,
+      no_telp: e.target.value,
     } });
+  }
+
+  handleNoHandphoneChange(e) {
+    this.setState({
+      newDataSupplier: {
+        ...this.state.newDataSupplier,
+        no_handphone: e.target.value,
+      },
+    });
+  }
+
+  handleIsolatedNoHandphoneChange(e) {
+    this.setState({
+      isolatedDataSupplier: {
+        ...this.state.isolatedDataSupplier,
+        no_handphone: e.target.value,
+      },
+    });
   }
 
   textFilter(filter, row) {
@@ -105,8 +177,8 @@ export default class Supplier extends Component {
   }
 
   handleShowModal(e, rowInfo) {
-    const { dataSupplier } = this.state;
-    const isolatedDataSupplier = dataSupplier.filter((item) => item === rowInfo.original)[0];
+    const { supplier } = this.props;
+    const isolatedDataSupplier = supplier.get('data').filter((item) => item === rowInfo.original)[0];
     this.setState({ isolatedDataSupplier, showModal: true });
   }
 
@@ -115,17 +187,11 @@ export default class Supplier extends Component {
   }
 
   render() {
-    const { dataSupplier } = this.state;
-    const { history } = this.props;
+    const { history, supplier, loading, utilitasLoading } = this.props;
     const columns = [
       {
-        Header: 'Kode',
-        accessor: 'kode',
-        filterable: false,
-      },
-      {
         Header: 'Nama Supplier',
-        accessor: 'nama_supplier',
+        accessor: 'nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
         filterable: false,
       },
@@ -135,13 +201,25 @@ export default class Supplier extends Component {
         filterable: false,
       },
       {
-        Header: 'NoTelp',
-        accessor: 'no_telpon',
+        Header: 'No. Telp',
+        accessor: 'no_telp',
+        filterable: false,
+      },
+      {
+        Header: 'No. Handphone',
+        accessor: 'no_handphone',
         filterable: false,
       },
     ];
     return (
       <div>
+        {
+          (loading || utilitasLoading) ? (
+            <Loading />
+          ) : (
+              null
+            )
+        }
         <Menu history={ history } />
         <section className='product-section'>
           <Modal show={ this.state.showModal } onHide={ this.handleCloseModal } dialogClassName='edit-modal'>
@@ -154,7 +232,7 @@ export default class Supplier extends Component {
                   <ControlLabel>Nama Supplier</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataSupplier.nama_supplier }
+                    value={ this.state.isolatedDataSupplier.nama }
                     onChange={ this.handleIsolatedNamaChange }
                     placeholder='Nama Supplier'
                   />
@@ -174,16 +252,26 @@ export default class Supplier extends Component {
                   <ControlLabel>No Telepon Supplier</ControlLabel>
                   <FormControl
                     type='text'
-                    value={ this.state.isolatedDataSupplier.no_telpon }
+                    value={ this.state.isolatedDataSupplier.no_telp }
                     onChange={ this.handleIsolatedNoTelpChange }
                     placeholder='No Telepon Supplier'
                   />
                   <FormControl.Feedback />
                 </FormGroup>
                 <FormGroup>
+                  <ControlLabel>No Handphone Supplier</ControlLabel>
+                  <FormControl
+                    type='text'
+                    value={ this.state.isolatedDataSupplier.no_handphone }
+                    onChange={ this.handleIsolatedNoHandphoneChange }
+                    placeholder='No Handphone Supplier'
+                  />
+                  <FormControl.Feedback />
+                </FormGroup>
+                <FormGroup>
                   <HelpBlock>{null}</HelpBlock>
-                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Edit Supplier</Button>
-                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteProduct } >Delete Supplier</Button>
+                  <Button type='submit' block bsStyle='primary' onClick={ this.handleEditSupplier }>Edit Supplier</Button>
+                  <Button type='submit' block bsStyle='danger' onClick={ this.handleDeleteSupplier } >Delete Supplier</Button>
                 </FormGroup>
               </Form>
             </Modal.Body>
@@ -203,12 +291,12 @@ export default class Supplier extends Component {
                   <Col xs={ 12 }>
                     <Panel>
                       <h4>Tambah Supplier</h4>
-                      <Form>
+                      <Form onSubmit={ this.handleAddSupplier }>
                         <FormGroup>
                           <ControlLabel>Nama Supplier</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataSupplier.nama_supplier }
+                            value={ this.state.newDataSupplier.nama }
                             onChange={ this.handleNamaChange }
                             placeholder='Nama Supplier'
                           />
@@ -228,15 +316,25 @@ export default class Supplier extends Component {
                           <ControlLabel>No Telepon Supplier</ControlLabel>
                           <FormControl
                             type='text'
-                            value={ this.state.newDataSupplier.no_telpon }
+                            value={ this.state.newDataSupplier.no_telp }
                             onChange={ this.handleNoTelpChange }
                             placeholder='No Telepon Supplier'
                           />
                           <FormControl.Feedback />
                         </FormGroup>
                         <FormGroup>
+                          <ControlLabel>No Handphone Supplier</ControlLabel>
+                          <FormControl
+                            type='text'
+                            value={ this.state.newDataSupplier.no_handphone }
+                            onChange={ this.handleNoHandphoneChange }
+                            placeholder='No Handphone Supplier'
+                          />
+                          <FormControl.Feedback />
+                        </FormGroup>
+                        <FormGroup>
                           <HelpBlock>{null}</HelpBlock>
-                          <Button type='submit' block bsStyle='primary' onClick={ this.handleEditProduct }>Tambah Supplier</Button>
+                          <Button type='submit' block bsStyle='primary'>Tambah Supplier</Button>
                         </FormGroup>
                       </Form>
                     </Panel>
@@ -244,7 +342,7 @@ export default class Supplier extends Component {
                       <h4>Daftar Supplier</h4>
                       <h6><em>Klik pada baris tabel untuk merubah / menghapus entri</em></h6>
                       <ReactTable
-                        data={ dataSupplier }
+                        data={ supplier.get('data') }
                         columns={ columns }
                         noDataText='No Data Available'
                         filterable
