@@ -2,8 +2,7 @@
   "barang": {
     "code": 200,
     "message": "success",
-    "data": [
-      {
+    "data": [{
         "kode": 1,
         "nama_barang": "Sendal Jepit",
         "harga_beli": 300,
@@ -52,8 +51,7 @@
   "konsumen": {
     "code": 200,
     "message": "success",
-    "data": [
-      {
+    "data": [{
         "area": "bandung",
         "kode": 1,
         "nama_konsumen": "Udin",
@@ -98,8 +96,7 @@
   "pegawai": {
     "code": 200,
     "message": "success",
-    "data": [
-      {
+    "data": [{
         "kode": 1,
         "nama_pegawai": "Udin",
         "jabatan": "admin",
@@ -136,8 +133,7 @@
   "supplier": {
     "code": 200,
     "message": "success",
-    "data": [
-      {
+    "data": [{
         "kode": 1,
         "nama_supplier": "Udin",
         "alamat": "pelindung hewan",
@@ -170,8 +166,7 @@
   "utilitas": {
     "code": 200,
     "message": "success",
-    "data": [
-      {
+    "data": [{
         "kode": 1,
         "tipe": "Merk",
         "nama": "Hello",
@@ -188,14 +183,108 @@
   "tipe": {
     "code": 200,
     "message": "success",
-    "data": [
-      {
+    "data": [{
         "kode": 1,
         "nama_tipe": "Merk"
       },
       {
         "kode": 1,
         "nama_tipe": "Biaya Operasional"
+      }
+    ]
+  },
+  "privilege": {
+    "code": 200,
+    "message": "success",
+    "data": [{
+        "id": 1,
+        "tipe": "Referensi",
+        "data": [{
+            "id": 1,
+            "nama": "Data Barang",
+            "status": true
+          },
+          {
+            "id": 2,
+            "nama": "Data Salesmen",
+            "status": true
+          },
+          {
+            "id": 3,
+            "nama": "Data Konsumen",
+            "status": false
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "tipe": "Transaksi",
+        "data": [{
+            "id": 4,
+            "nama": "Penjualan",
+            "status": false
+          },
+          {
+            "id": 5,
+            "nama": "Retur Penjualan",
+            "status": true
+          },
+          {
+            "id": 6,
+            "nama": "Penerimaan Barang",
+            "status": false
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "tipe": "Laporan",
+        "data": [{
+            "id": 7,
+            "nama": "Stock Barang",
+            "status": true
+          },
+          {
+            "id": 8,
+            "nama": "Laporan Penjualan",
+            "status": true
+          },
+          {
+            "id": 9,
+            "nama": "Laporan Retur Jual",
+            "status": false
+          },
+          {
+            "id": 10,
+            "nama": "Laporan Piutang",
+            "status": true
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "tipe": "Utilitas",
+        "data": [{
+            "id": 11,
+            "nama": "Buat User",
+            "status": false
+          },
+          {
+            "id": 12,
+            "nama": "Edit Harga",
+            "status": true
+          },
+          {
+            "id": 13,
+            "nama": "Stock Awal",
+            "status": true
+          },
+          {
+            "id": 14,
+            "nama": "Kontrol Operasional",
+            "status": true
+          }
+        ]
       }
     ]
   }

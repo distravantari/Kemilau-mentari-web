@@ -7,6 +7,7 @@ import Konsumen from 'views/Konsumen';
 import Pegawai from 'views/Pegawai';
 import Supplier from 'views/Supplier';
 import Utilitas from 'views/Utilitas';
+import TambahAkun from 'views/TambahAkun';
 
 import NotFound from 'views/NotFound';
 
@@ -19,6 +20,7 @@ export const routeCodes = {
   PEGAWAI: `${ publicPath }pegawai`,
   SUPPLIER: `${ publicPath }supplier`,
   UTILITAS: `${ publicPath }utilitas`,
+  TAMBAH_AKUN: `${ publicPath }tambah-akun`,
 };
 
 export default () => (
@@ -29,6 +31,7 @@ export default () => (
     <Route exact path={ routeCodes.PEGAWAI } component={ Pegawai } />
     <Route exact path={ routeCodes.SUPPLIER } component={ Supplier } />
     <Route exact path={ routeCodes.UTILITAS } component={ Utilitas } />
+    <Route exact path={ routeCodes.TAMBAH_AKUN } component={ TambahAkun } />
     <Route path='*' component={ NotFound } />
   </Switch>
 );

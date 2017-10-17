@@ -50,6 +50,12 @@ export default class Menu extends Component {
                 <NavItem data-to={ routeCodes.UTILITAS } onClick={ this.handleNavigation }>Utilitas</NavItem>
               </NavDropdown>
             </Nav>
+            <Nav>
+              <NavDropdown title='AKUN' id='basic-nav-dropdown'>
+                <NavItem data-to={ routeCodes.TAMBAH_AKUN } onClick={ this.handleNavigation }>Tambah Akun</NavItem>
+                <NavItem data-to={ routeCodes.KONSUMEN } onClick={ this.handleNavigation }>Edit Akun</NavItem>
+              </NavDropdown>
+            </Nav>
             <Nav pullRight>
               <NavItem onClick={ this.handleLogout }>Logout</NavItem>
             </Nav>
