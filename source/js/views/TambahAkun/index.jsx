@@ -16,6 +16,10 @@ import data from '../data.json';
 // }))
 
 export default class TambahAkun extends Component {
+  static propTypes = {
+    history: PropTypes.object,
+  }
+
   constructor() {
     super();
     this.state = {
@@ -96,6 +100,7 @@ export default class TambahAkun extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <Menu history={ history } />
