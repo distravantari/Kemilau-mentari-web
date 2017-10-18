@@ -287,5 +287,42 @@
         ]
       }
     ]
+  },
+  "pengeluaran": {
+    "code": 200,
+    "message": "success",
+    "data": [{
+        "id": 1,
+        "nama": "Hello 1",
+        "perkiraanBiaya": 200,
+        "noBukti": "0001",
+        "total": 5000,
+        "detailPerkiraan": "Halo Halo"
+      },
+      {
+        "id": 2,
+        "nama": "Hello 2",
+        "perkiraanBiaya": 100,
+        "noBukti": "0002",
+        "total": 4400,
+        "detailPerkiraan": "Halo Halo"
+      },
+      {
+        "id": 3,
+        "nama": "Hello 3",
+        "perkiraanBiaya": 800,
+        "noBukti": "0009",
+        "total": 6670,
+        "detailPerkiraan": "Halo Halo"
+      },
+      {
+        "id": 4,
+        "nama": "Hello 4",
+        "perkiraanBiaya": 300,
+        "noBukti": "0003",
+        "total": 5700,
+        "detailPerkiraan": "Halo Halo"
+      }
+    ]
   }
 }

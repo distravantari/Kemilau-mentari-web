@@ -6,6 +6,10 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 import Menu from 'components/Global/Menu';
 import Loading from 'components/Global/Loading';
 
+// react table
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+
 import data from '../data.json';
 
 // @connect(state => ({
@@ -58,6 +62,28 @@ export default class PengeluaranBiaya extends Component {
     const { history } = this.props;
     const now = new Date();
     const nowDate = now.toISOString().split('T')[0];
+    const columns = [
+      {
+        Header: 'Perkiraan Biaya',
+        accessor: 'perkiraanBiaya',
+        filterable: false,
+      },
+      {
+        Header: 'No. Bukti',
+        accessor: 'noBukti',
+        filterable: false,
+      },
+      {
+        Header: 'Total',
+        accessor: 'total',
+        filterable: false,
+      },
+      {
+        Header: 'Detail Perkiraan',
+        accessor: 'detailPerkiraan',
+        filterable: false,
+      },
+    ];
     return (
       <div>
         <Menu history={ history } />
@@ -97,23 +123,71 @@ export default class PengeluaranBiaya extends Component {
                             <option value='0'>--Pegawai--</option>
                           </FormControl>
                         </FormGroup>
+                        <FormGroup>
+                          <ControlLabel>Alamat</ControlLabel>
+                          <FormControl
+                            type='text'
+                            value={ this.state.alamat }
+                            onChange={ this.handleAlamatChange }
+                            placeholder='Alamat'
+                          />
+                          <FormControl.Feedback />
+                        </FormGroup>
+                        <FormGroup>
+                          <ControlLabel>Tipe Biaya</ControlLabel>
+                          <FormControl componentClass='select' placeholder='Tipe Biaya' onChange={ this.handleTipeBiayaChange } value={ this.state.tipeBiaya }>
+                            <option value='0'>--Tipe Biaya--</option>
+                          </FormControl>
+                        </FormGroup>
+                        <FormGroup>
+                          <ControlLabel>No. Bukti</ControlLabel>
+                          <FormControl
+                            type='text'
+                            value={ this.state.noBukti }
+                            onChange={ this.handleNoBuktiChange }
+                            placeholder='No. Bukti'
+                          />
+                          <FormControl.Feedback />
+                        </FormGroup>
+                        <FormGroup>
+                          <ControlLabel>Jumlah</ControlLabel>
+                          <FormControl
+                            type='text'
+                            value={ this.state.jumlah }
+                            onChange={ this.handleJumlahChange }
+                            placeholder='Jumlah'
+                          />
+                          <FormControl.Feedback />
+                        </FormGroup>
+                        <FormGroup>
+                          <ControlLabel>Detail Biaya</ControlLabel>
+                          <FormControl
+                            type='text'
+                            value={ this.state.detailBiaya }
+                            onChange={ this.handleDetailBiayaChange }
+                            placeholder='Detail Biaya'
+                          />
+                          <FormControl.Feedback />
+                        </FormGroup>
+                        <Form>
+                          <FormGroup>
+                            <HelpBlock>{null}</HelpBlock>
+                            <Button type='submit' block bsStyle='primary' onClick={this.handleAddAkun}>Save</Button>
+                          </FormGroup>
+                        </Form>
                       </Form>
                     </Panel>
                     <Panel>
-                      <h4>Privilege</h4>
-                      <Row>
-                        {
-                          data.privilege.data.map((item, index) => this.renderPrivilegeCol(item, index))
-                        }
-                      </Row>
                       <Row>
                         <Col xs={ 12 }>
-                          <Form>
-                            <FormGroup>
-                              <HelpBlock>{null}</HelpBlock>
-                              <Button type='submit' block bsStyle='primary' onClick={ this.handleAddAkun }>Tambah Akun</Button>
-                            </FormGroup>
-                          </Form>
+                          <ReactTable
+                            data={ data.pengeluaran.data }
+                            columns={ columns }
+                            noDataText='No Data Available'
+                            filterable
+                            defaultPageSize={ 10 }
+                            className='-striped -highlight'
+                          />
                         </Col>
                       </Row>
                     </Panel>
