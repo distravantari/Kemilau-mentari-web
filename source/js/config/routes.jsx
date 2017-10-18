@@ -9,6 +9,7 @@ import Supplier from 'views/Supplier';
 import Utilitas from 'views/Utilitas';
 import TambahAkun from 'views/TambahAkun';
 import EditAkun from 'views/EditAkun';
+import PengeluaranBiaya from 'views/PengeluaranBiaya';
 
 import NotFound from 'views/NotFound';
 
@@ -23,6 +24,7 @@ export const routeCodes = {
   UTILITAS: `${ publicPath }utilitas`,
   TAMBAH_AKUN: `${ publicPath }tambah-akun`,
   EDIT_AKUN: `${ publicPath }edit-akun`,
+  PENGELUARAN_BIAYA: `${ publicPath }pengeluaran-biaya`,
 };
 
 export default () => (
@@ -35,6 +37,7 @@ export default () => (
     <Route exact path={ routeCodes.UTILITAS } component={ Utilitas } />
     <Route exact path={ routeCodes.TAMBAH_AKUN } component={ TambahAkun } />
     <Route exact path={ routeCodes.EDIT_AKUN } component={ EditAkun } />
+    <Route exact path={ routeCodes.PENGELUARAN_BIAYA } component={ PengeluaranBiaya } />
     <Route path='*' component={ NotFound } />
   </Switch>
 );
