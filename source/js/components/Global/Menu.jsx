@@ -62,6 +62,9 @@ export default class Menu extends Component {
                 <NavItem data-to={ routeCodes.RETUR_PEMBELIAN } onClick={ this.handleNavigation }>Retur Pembelian</NavItem>
               </NavDropdown>
             </Nav>
+            <Nav>
+              <NavItem data-to={ routeCodes.HISTORY } onClick={ this.handleNavigation }>HISTORY</NavItem>
+            </Nav>
             <Nav pullRight>
               <NavItem onClick={ this.handleLogout }>Logout</NavItem>
             </Nav>

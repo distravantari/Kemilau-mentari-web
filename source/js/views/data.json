@@ -366,5 +366,39 @@
           "keterangan": "Halo Halo"
         }
       ]
-    }
+    },
+        "history": {
+          "code": 200,
+          "message": "success",
+          "data": [
+            {
+              "number": 1,
+              "date": "2017 - 10 - 5",
+              "nama": "Hello 1",
+              "pageName": "Hello Page 1",
+              "activity": "Activity Hello"
+            },
+            {
+              "number": 2,
+              "date": "2017 - 10 - 5",
+              "nama": "Hello 2",
+              "pageName": "Hello Page 1",
+              "activity": "Activity Hello"
+            },
+            {
+              "number": 3,
+              "date": "2017 - 10 - 5",
+              "nama": "Hello 3",
+              "pageName": "Hello Page 1",
+              "activity": "Activity Hello"
+            },
+            {
+              "number": 4,
+              "date": "2017 - 10 - 5",
+              "nama": "Hello 4",
+              "pageName": "Hello Page 1",
+              "activity": "Activity Hello"
+            }
+          ]
+        }
 }

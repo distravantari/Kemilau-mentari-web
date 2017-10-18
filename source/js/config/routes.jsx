@@ -11,6 +11,7 @@ import TambahAkun from 'views/TambahAkun';
 import EditAkun from 'views/EditAkun';
 import PengeluaranBiaya from 'views/PengeluaranBiaya';
 import ReturPembelian from 'views/ReturPembelian';
+import History from 'views/History';
 
 import NotFound from 'views/NotFound';
 
@@ -27,6 +28,7 @@ export const routeCodes = {
   EDIT_AKUN: `${ publicPath }edit-akun`,
   PENGELUARAN_BIAYA: `${ publicPath }pengeluaran-biaya`,
   RETUR_PEMBELIAN: `${ publicPath }retur-pembelian`,
+  HISTORY: `${ publicPath }history`,
 };
 
 export default () => (
@@ -41,6 +43,7 @@ export default () => (
     <Route exact path={ routeCodes.EDIT_AKUN } component={ EditAkun } />
     <Route exact path={ routeCodes.PENGELUARAN_BIAYA } component={ PengeluaranBiaya } />
     <Route exact path={ routeCodes.RETUR_PEMBELIAN } component={ ReturPembelian } />
+    <Route exact path={ routeCodes.HISTORY } component={ History } />
     <Route path='*' component={ NotFound } />
   </Switch>
 );
