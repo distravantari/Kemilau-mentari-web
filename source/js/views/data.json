@@ -324,5 +324,47 @@
         "detailPerkiraan": "Halo Halo"
       }
     ]
-  }
+  },
+    "retur": {
+      "code": 200,
+      "message": "success",
+      "data": [
+        {
+          "kode": 1,
+          "nama": "Hello 1",
+          "hargaBeli": 200,
+          "hargaJual": 4500,
+          "qty": 10,
+          "total": 5000,
+          "keterangan": "Halo Halo"
+        },
+        {
+          "kode": 2,
+          "nama": "Hello 2",
+          "hargaBeli": 100,
+          "hargaJual": 4500,
+          "qty": 10,
+          "total": 4400,
+          "keterangan": "Halo Halo"
+        },
+        {
+          "kode": 3,
+          "nama": "Hello 3",
+          "hargaBeli": 800,
+          "hargaJual": 4500,
+          "qty": 10,
+          "total": 6670,
+          "keterangan": "Halo Halo"
+        },
+        {
+          "kode": 4,
+          "nama": "Hello 4",
+          "hargaBeli": 300,
+          "hargaJual": 4500,
+          "qty": 10,
+          "total": 5700,
+          "keterangan": "Halo Halo"
+        }
+      ]
+    }
 }
