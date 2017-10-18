@@ -169,12 +169,6 @@ export default class PengeluaranBiaya extends Component {
                           />
                           <FormControl.Feedback />
                         </FormGroup>
-                        <Form>
-                          <FormGroup>
-                            <HelpBlock>{null}</HelpBlock>
-                            <Button type='submit' block bsStyle='primary' onClick={this.handleAddAkun}>Save</Button>
-                          </FormGroup>
-                        </Form>
                       </Form>
                     </Panel>
                     <Panel>
@@ -188,6 +182,16 @@ export default class PengeluaranBiaya extends Component {
                             defaultPageSize={ 10 }
                             className='-striped -highlight'
                           />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={ 12 }>
+                          <Form>
+                            <FormGroup>
+                              <HelpBlock>{null}</HelpBlock>
+                              <Button type='submit' block bsStyle='primary' onClick={ this.handleAddAkun }>Save</Button>
+                            </FormGroup>
+                          </Form>
                         </Col>
                       </Row>
                     </Panel>
