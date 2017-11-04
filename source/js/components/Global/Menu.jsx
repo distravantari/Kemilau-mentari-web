@@ -67,6 +67,9 @@ export default class Menu extends Component {
             <Nav>
               <NavItem data-to={ routeCodes.HISTORY } onClick={ this.handleNavigation }>HISTORY</NavItem>
             </Nav>
+            <Nav>
+              <NavItem data-to={ routeCodes.UPLOAD_DATA } onClick={ this.handleNavigation }>UPLOAD DATA</NavItem>
+            </Nav>
             <Nav pullRight>
               <NavItem onClick={ this.handleLogout }>Logout</NavItem>
             </Nav>

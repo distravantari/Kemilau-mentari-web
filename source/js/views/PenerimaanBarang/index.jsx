@@ -5,6 +5,7 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 
 import Menu from 'components/Global/Menu';
 import Loading from 'components/Global/Loading';
+import ModalBarang from 'components/Global/ModalBarang';
 
 // react table
 import ReactTable from 'react-table';
@@ -30,6 +31,7 @@ export default class PenerimaanBarang extends Component {
       tanggal: '',
       nomor: '',
       pegawai: '',
+      showModalBarang: false,
     };
 
     this.handleTanggalChange = this.handleTanggalChange.bind(this);
@@ -37,6 +39,17 @@ export default class PenerimaanBarang extends Component {
     this.handlePegawaiChange = this.handlePegawaiChange.bind(this);
 
     this.handleAddAkun = this.handleAddAkun.bind(this);
+
+    this.handleShowModalBarang = this.handleShowModalBarang.bind(this);
+    this.handleHideModalBarang = this.handleHideModalBarang.bind(this);
+  }
+
+  handleShowModalBarang(e) {
+    this.setState({ showModalBarang: true });
+  }
+
+  handleHideModalBarang(e) {
+    this.setState({ showModalBarang: false });
   }
 
   handleTanggalChange(e) {
@@ -62,6 +75,38 @@ export default class PenerimaanBarang extends Component {
     const { history } = this.props;
     const now = new Date();
     const nowDate = now.toISOString().split('T')[0];
+
+    const columnModalBarang = [
+      {
+        Header: 'Kategori',
+        accessor: 'kategori.nama',
+        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      },
+      {
+        Header: 'Merek',
+        accessor: 'merek.nama',
+        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      },
+      {
+        Header: 'Nama Barang',
+        accessor: 'nama_barang',
+        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      },
+      {
+        Header: 'Harga Beli',
+        accessor: 'harga_beli',
+      },
+      {
+        Header: 'Harga Jual',
+        accessor: 'harga_jual',
+      },
+      {
+        Header: 'Nama Supplier',
+        accessor: 'supplier_barang.nama',
+        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      },
+    ];
+
     const columns = [
       {
         Header: 'Kode',
@@ -93,6 +138,7 @@ export default class PenerimaanBarang extends Component {
       <div>
         <Menu history={ history } />
         <section className='product-section'>
+          <ModalBarang hidden={ !this.state.showModalBarang } columns={ columnModalBarang } onHide={ this.handleHideModalBarang } />
           <Grid>
             <Row className='title-row'>
               <Col xs={ 12 }>
@@ -162,8 +208,8 @@ export default class PenerimaanBarang extends Component {
                             </FormGroup>
                             <FormGroup>
                               <ControlLabel>Pembayaran</ControlLabel>
-                                <Radio name='radioGroup' inline>Cash</Radio>
-                                <Radio name='radioGroup' inline>Kredit</Radio>
+                              <Radio name='radioGroup' inline>Cash</Radio>
+                              <Radio name='radioGroup' inline>Kredit</Radio>
                               <FormControl.Feedback />
                             </FormGroup>
                             <FormGroup>
@@ -191,6 +237,7 @@ export default class PenerimaanBarang extends Component {
                                 value={ this.state.kodeBarang }
                                 onChange={ this.handleKodeBarangChange }
                                 placeholder='Kode Barang'
+                                onClick={ this.handleShowModalBarang }
                               />
                               <FormControl.Feedback />
                             </FormGroup>
