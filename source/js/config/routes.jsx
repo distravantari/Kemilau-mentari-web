@@ -12,6 +12,7 @@ import EditAkun from 'views/EditAkun';
 import PengeluaranBiaya from 'views/PengeluaranBiaya';
 import PenerimaanBarang from 'views/PenerimaanBarang';
 import ReturPembelian from 'views/ReturPembelian';
+import ReturPenjualan from 'views/ReturPenjualan';
 import History from 'views/History';
 
 import NotFound from 'views/NotFound';
@@ -30,6 +31,7 @@ export const routeCodes = {
   PENGELUARAN_BIAYA: `${ publicPath }pengeluaran-biaya`,
   PENERIMAAN_BARANG: `${ publicPath }penerimaan-barang`,
   RETUR_PEMBELIAN: `${ publicPath }retur-pembelian`,
+  RETUR_PENJUALAN: `${ publicPath }retur-penjualan`,
   HISTORY: `${ publicPath }history`,
 };
 
@@ -46,6 +48,7 @@ export default () => (
     <Route exact path={ routeCodes.PENGELUARAN_BIAYA } component={ PengeluaranBiaya } />
     <Route exact path={ routeCodes.PENERIMAAN_BARANG } component={ PenerimaanBarang } />
     <Route exact path={ routeCodes.RETUR_PEMBELIAN } component={ ReturPembelian } />
+    <Route exact path={ routeCodes.RETUR_PENJUALAN } component={ ReturPenjualan } />
     <Route exact path={ routeCodes.HISTORY } component={ History } />
     <Route path='*' component={ NotFound } />
   </Switch>
