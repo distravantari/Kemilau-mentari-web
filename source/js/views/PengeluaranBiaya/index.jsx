@@ -64,7 +64,7 @@ export default class PengeluaranBiaya extends Component {
     const nowDate = now.toISOString().split('T')[0];
     const columns = [
       {
-        Header: 'Perkiraan Biaya',
+        Header: 'Tipe Biaya',
         accessor: 'perkiraanBiaya',
         filterable: false,
       },
@@ -79,7 +79,7 @@ export default class PengeluaranBiaya extends Component {
         filterable: false,
       },
       {
-        Header: 'Detail Perkiraan',
+        Header: 'Keterngan',
         accessor: 'detailPerkiraan',
         filterable: false,
       },

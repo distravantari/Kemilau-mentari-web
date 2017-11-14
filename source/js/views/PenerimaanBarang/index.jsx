@@ -181,9 +181,9 @@ export default class PenerimaanBarang extends Component {
                               <h3 className='total'>Rp. 0</h3>
                             </div>
                             <FormGroup>
-                              <ControlLabel>Salesman</ControlLabel>
-                              <FormControl componentClass='select' placeholder='Salesman' onChange={ this.handleSalesmanChange } value={ this.state.salesman }>
-                                <option value='0'>--Salesman--</option>
+                              <ControlLabel>Supplier</ControlLabel>
+                              <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleSalesmanChange } value={ this.state.salesman }>
+                                <option value='0'>--Supplier--</option>
                               </FormControl>
                             </FormGroup>
                             <FormGroup>
@@ -231,7 +231,7 @@ export default class PenerimaanBarang extends Component {
                         <Col xs={ 12 }>
                           <Form>
                             <FormGroup>
-                              <ControlLabel>Kode Barang</ControlLabel>
+                              <ControlLabel>Nama Barang</ControlLabel>
                               <FormControl
                                 type='text'
                                 value={ this.state.kodeBarang }

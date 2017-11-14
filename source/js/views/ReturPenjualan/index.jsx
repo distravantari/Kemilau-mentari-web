@@ -222,7 +222,7 @@ export default class ReturPenjualan extends Component {
                         <Col xs={ 12 }>
                           <Form>
                             <FormGroup>
-                              <ControlLabel>Kode Barang</ControlLabel>
+                              <ControlLabel>Nama Barang</ControlLabel>
                               <FormControl
                                 type='text'
                                 value={ this.state.kodeBarang }
