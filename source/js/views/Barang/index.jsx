@@ -272,14 +272,19 @@ export default class Barang extends Component {
         accessor: 'kategori.nama',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
       },
-      {
-        Header: 'Merek',
-        accessor: 'merek.nama',
-        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
-      },
+      // {
+      //   Header: 'Merek',
+      //   accessor: 'merek.nama',
+      //   filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      // },
       {
         Header: 'Nama Barang',
         accessor: 'nama_barang',
+        filterMethod: (filter, row) => { return this.textFilter(filter, row); },
+      },
+      {
+        Header: 'Tipe Barang',
+        accessor: 'tipe',
         filterMethod: (filter, row) => { return this.textFilter(filter, row); },
       },
       {

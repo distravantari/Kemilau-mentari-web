@@ -6,6 +6,7 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 import Menu from 'components/Global/Menu';
 import Loading from 'components/Global/Loading';
 import ModalBarang from 'components/Global/ModalBarang';
+import DevelopmentNotice from 'components/Global/DevelopmentNotice';
 
 // react table
 import ReactTable from 'react-table';
@@ -108,11 +109,11 @@ export default class ReturPenjualan extends Component {
     ];
 
     const columns = [
-      {
-        Header: 'Kode',
-        accessor: 'kode',
-        filterable: false,
-      },
+      // {
+      //   Header: 'Kode',
+      //   accessor: 'kode',
+      //   filterable: false,
+      // },
       {
         Header: 'Nama Barang',
         accessor: 'nama',
@@ -141,9 +142,14 @@ export default class ReturPenjualan extends Component {
     ];
     return (
       <div>
+        <DevelopmentNotice />
         <Menu history={ history } />
         <section className='product-section'>
-          <ModalBarang hidden={ !this.state.showModalBarang } columns={ columnModalBarang } onHide={ this.handleHideModalBarang } />
+          <ModalBarang
+            hidden={ !this.state.showModalBarang }
+            columns={ columnModalBarang }
+            onHide={ this.handleHideModalBarang }
+          />
           <Grid>
             <Row className='title-row'>
               <Col xs={ 12 }>
@@ -227,7 +233,7 @@ export default class ReturPenjualan extends Component {
                                 type='text'
                                 value={ this.state.kodeBarang }
                                 onChange={ this.handleKodeBarangChange }
-                                placeholder='Kode Barang'
+                                placeholder='Nama Barang'
                                 onClick={ this.handleShowModalBarang }
                               />
                               <FormControl.Feedback />

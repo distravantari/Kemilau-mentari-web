@@ -5,6 +5,7 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 
 import Menu from 'components/Global/Menu';
 import Loading from 'components/Global/Loading';
+import DevelopmentNotice from 'components/Global/DevelopmentNotice';
 
 import data from '../data.json';
 
@@ -107,6 +108,7 @@ export default class EditAkun extends Component {
     const { history } = this.props;
     return (
       <div>
+        <DevelopmentNotice />
         <Menu history={ history } />
         <section className='product-section'>
           <Grid>
@@ -129,7 +131,7 @@ export default class EditAkun extends Component {
                           </FormControl>
                         </FormGroup>
                         <FormGroup>
-                          <ControlLabel>Password</ControlLabel>
+                          <ControlLabel>New Password</ControlLabel>
                           <FormControl
                             type='password'
                             value={ this.state.newDataPegawai.password }
@@ -139,7 +141,7 @@ export default class EditAkun extends Component {
                           <FormControl.Feedback />
                         </FormGroup>
                         <FormGroup>
-                          <ControlLabel>Confirm Password</ControlLabel>
+                          <ControlLabel>Confirm New Password</ControlLabel>
                           <FormControl
                             type='password'
                             value={ this.state.newDataPegawai.confirmPassword }

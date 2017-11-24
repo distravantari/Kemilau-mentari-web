@@ -5,6 +5,7 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 
 import Menu from 'components/Global/Menu';
 import Loading from 'components/Global/Loading';
+import DevelopmentNotice from 'components/Global/DevelopmentNotice';
 
 // react table
 import ReactTable from 'react-table';
@@ -79,13 +80,19 @@ export default class PengeluaranBiaya extends Component {
         filterable: false,
       },
       {
-        Header: 'Keterngan',
+        Header: 'Keterangan',
         accessor: 'detailPerkiraan',
+        filterable: false,
+      },
+      {
+        Header: 'Nama Pegawai',
+        accessor: 'namaPegawai',
         filterable: false,
       },
     ];
     return (
       <div>
+        <DevelopmentNotice />
         <Menu history={ history } />
         <section className='product-section'>
           <Grid>

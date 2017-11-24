@@ -6,6 +6,7 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 
 import Menu from 'components/Global/Menu';
 import Loading from 'components/Global/Loading';
+import DevelopmentNotice from 'components/Global/DevelopmentNotice';
 
 export default class UploadData extends Component {
   static propTypes = {
@@ -47,6 +48,7 @@ export default class UploadData extends Component {
   render() {
     return (
       <div>
+        <DevelopmentNotice />
         <Menu history={ this.props.history } />
         <section className='upload-section'>
           <Grid>

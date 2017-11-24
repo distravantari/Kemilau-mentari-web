@@ -5,6 +5,7 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 
 import Menu from 'components/Global/Menu';
 import Loading from 'components/Global/Loading';
+import DevelopmentNotice from 'components/Global/DevelopmentNotice';
 
 // react table
 import ReactTable from 'react-table';
@@ -63,11 +64,11 @@ export default class ReturPembelian extends Component {
     const now = new Date();
     const nowDate = now.toISOString().split('T')[0];
     const columns = [
-      {
-        Header: 'Kode',
-        accessor: 'kode',
-        filterable: false,
-      },
+      // {
+      //   Header: 'Kode',
+      //   accessor: 'kode',
+      //   filterable: false,
+      // },
       {
         Header: 'Nama Barang',
         accessor: 'nama',
@@ -96,6 +97,7 @@ export default class ReturPembelian extends Component {
     ];
     return (
       <div>
+        <DevelopmentNotice />
         <Menu history={ history } />
         <section className='product-section'>
           <Grid>
@@ -110,23 +112,9 @@ export default class ReturPembelian extends Component {
                   <Col xs={ 12 }>
                     <Panel>
                       <Form>
-                        <FormGroup>
-                          <ControlLabel>Tanggal</ControlLabel>
-                          <FormControl
-                            type='text'
-                            value={ nowDate }
-                            onChange={ this.handleTanggalChange }
-                            placeholder='Tanggal'
-                            disabled
-                          />
-                          <FormControl.Feedback />
-                        </FormGroup>
-                        <FormGroup>
-                          <ControlLabel>Nomor</ControlLabel>
-                          <FormControl componentClass='select' placeholder='Nama' onChange={ this.handleNomorChange } value={ this.state.nomor }>
-                            <option value='0'>--Nomor--</option>
-                          </FormControl>
-                        </FormGroup>
+                      <Row>
+                        <Col xs={ 6 }>
+
                         <FormGroup>
                           <ControlLabel>Supplier</ControlLabel>
                           <FormControl componentClass='select' placeholder='Supplier' onChange={ this.handleSupplierChange } value={ this.state.supplier }>
@@ -193,6 +181,30 @@ export default class ReturPembelian extends Component {
                           />
                           <FormControl.Feedback />
                         </FormGroup>
+                        </Col>
+                        <Col xs={ 6 }>
+                        <div className='total-wrapper text-center'>
+                          <h3 className='total'>Rp. 0</h3>
+                        </div>
+                        <FormGroup>
+                          <ControlLabel>Tanggal</ControlLabel>
+                          <FormControl
+                            type='text'
+                            value={ nowDate }
+                            onChange={ this.handleTanggalChange }
+                            placeholder='Tanggal'
+                            disabled
+                          />
+                          <FormControl.Feedback />
+                        </FormGroup>
+                        <FormGroup>
+                          <ControlLabel>Nomor</ControlLabel>
+                          <FormControl componentClass='select' placeholder='Nama' onChange={ this.handleNomorChange } value={ this.state.nomor }>
+                            <option value='0'>--Nomor--</option>
+                          </FormControl>
+                        </FormGroup>
+                        </Col>
+                      </Row>
                       </Form>
                     </Panel>
                     <Panel>

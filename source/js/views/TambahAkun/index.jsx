@@ -5,6 +5,7 @@ import { Grid, Row, Col, Panel, FormGroup, ControlLabel, FormControl, Form, Butt
 
 import Menu from 'components/Global/Menu';
 import Loading from 'components/Global/Loading';
+import DevelopmentNotice from 'components/Global/DevelopmentNotice';
 
 import data from '../data.json';
 
@@ -103,6 +104,7 @@ export default class TambahAkun extends Component {
     const { history } = this.props;
     return (
       <div>
+        <DevelopmentNotice />
         <Menu history={ history } />
         <section className='product-section'>
           <Grid>
